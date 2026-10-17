@@ -1,0 +1,8 @@
+{
+  "name": "Ankit Event Decor - Luxury Event Decoration & Booking",
+  "description": "Premium event decoration, birthday, anniversary, wedding, and baby shower celebrations by Kreative Decor. Serving Sector 7, Sector 51, Sector 12, Noida & Delhi NCR.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
