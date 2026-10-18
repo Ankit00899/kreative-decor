@@ -62,24 +62,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     );
   };
 
-  const cleanPhone = settings.whatsappNumber || settings.phoneNumber.replace(/[^0-9]/g, '') || '919650246245';
+  const cleanPhone = settings.whatsappNumber || settings.phoneNumber.replace(/[^0-9]/g, '') || '919878895539';
 
   const generateWhatsAppMessage = (bookingRef: string) => {
     return `🎉 *NEW EVENT DECORATION BOOKING REQUEST* 🎉
-*Ankit Event Decor (Ankit Kumar)*
+*Kreative Decor (Sector 7, Sector 51, Sector 12, Noida)*
 -----------------------------------
 📋 *Service / Setup:* ${service ? service.title : formData.eventType}
 👤 *Customer Name:* ${formData.customerName.trim()}
 📱 *WhatsApp Number:* ${formData.customerPhone.trim()}
 ${formData.customerEmail.trim() ? `✉️ *Email:* ${formData.customerEmail.trim()}\n` : ''}🗓️ *Event Date:* ${formData.eventDate}
 ⏰ *Preferred Setup Time:* ${formData.eventTime}
-📍 *City:* ${formData.eventCity}
+📍 *City / Area:* ${formData.eventCity}
 🏠 *Venue Type:* ${formData.venueType}
 🏢 *Full Address:* ${formData.fullAddress.trim() || 'Address will be provided'}
 🎨 *Theme / Colors:* ${formData.decorationPreferences.trim() || 'As discussed'}
 ${formData.customFoilText.trim() ? `🎈 *Name/Age on Balloons:* ${formData.customFoilText.trim()}\n` : ''}${selectedAddons.length > 0 ? `✨ *Requested Add-ons:* ${selectedAddons.join(', ')}\n` : ''}${formData.additionalRequirements.trim() ? `📝 *Special Instructions:* ${formData.additionalRequirements.trim()}\n` : ''}🔖 *Booking Reference:* ${bookingRef}
 -----------------------------------
-Hi Ankit, please check date availability and send quotation & setup confirmation on WhatsApp!`;
+Hi Kreative Decor, please check date availability and send quotation & setup confirmation on WhatsApp!`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -93,7 +93,7 @@ export const LoginPage: React.FC = () => {
         {/* Header Branding */}
         <div className="text-center space-y-2">
           <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#701F3D] to-[#8A264B] flex items-center justify-center text-[#D6B36A] font-serif text-2xl font-bold mx-auto border border-[#D6B36A]/40 shadow-md">
-            A
+            K
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#701F3D]">
             {mode === 'login' ? 'Customer Sign In' : 'Create Account'}
@@ -294,7 +294,7 @@ export const LoginPage: React.FC = () => {
         {/* Footer info for regular customers */}
         <div className="text-center pt-2 border-t border-[#F8E7EC] text-xs text-gray-500">
           <p>
-            By continuing, you agree to receive celebration updates and booking confirmations for Ankit Event Decor.
+            By continuing, you agree to receive celebration updates and booking confirmations for Kreative Decor.
           </p>
         </div>
       </div>

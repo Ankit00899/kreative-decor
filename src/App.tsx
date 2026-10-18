@@ -46,7 +46,7 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   return (
     <div className="min-h-screen flex flex-col bg-[#FFFCFA] text-[#29252A]">
       <Navbar />
-      <main className="flex-1 pb-16 md:pb-0">{children}</main>
+      <main className="flex-1 pb-24 md:pb-0">{children}</main>
       <Footer />
       <MobileBottomNav />
     </div>

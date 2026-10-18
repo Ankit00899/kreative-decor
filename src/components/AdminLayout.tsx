@@ -116,14 +116,14 @@ export const AdminLayout: React.FC<{ children: React.ReactNode; pageTitle: strin
         <div className="p-6 border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#701F3D] to-[#8A264B] flex items-center justify-center text-[#D6B36A] font-serif font-bold text-xl border border-[#D6B36A]/40">
-              A
+              K
             </div>
             <div>
               <h1 className="font-serif font-bold text-base text-white leading-tight">
-                Ankit Event Decor
+                Kreative Decor
               </h1>
               <span className="text-[10px] text-[#D6B36A] tracking-wider uppercase font-semibold">
-                Owner Dashboard
+                Owner Dashboard • Sector 7, 51, 12
               </span>
             </div>
           </div>

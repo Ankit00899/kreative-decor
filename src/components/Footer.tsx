@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#701F3D] to-[#8A264B] flex items-center justify-center text-[#D6B36A] shadow-md border border-[#D6B36A]/50">
-                <span className="font-serif text-2xl font-bold">A</span>
+                <span className="font-serif text-2xl font-bold">K</span>
                 <Sparkles className="w-3.5 h-3.5 text-[#D6B36A] -ml-1 -mt-2" />
               </div>
               <div>
@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
                   {settings.businessName}
                 </span>
                 <span className="text-xs uppercase tracking-widest text-[#D6B36A] font-medium block">
-                  Owned & Curated by {settings.ownerName}
+                  Sector 7, Sector 51, Sector 12 • Noida
                 </span>
               </div>
             </div>
@@ -62,7 +62,7 @@ export const Footer: React.FC = () => {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
-                  'Hi Ankit, I would like to inquire about event decoration packages for an upcoming celebration.'
+                  'Hi Kreative Decor, I would like to inquire about event decoration packages for an upcoming celebration.'
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -82,8 +82,8 @@ export const Footer: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3 text-xs text-gray-400 pt-2">
-              <span>Cities Served:</span>
-              <span className="text-[#D6B36A] font-medium">Delhi NCR • Noida • Gurugram • Lucknow</span>
+              <span>Locations:</span>
+              <span className="text-[#D6B36A] font-medium">Sector 7 • Sector 51 • Sector 12 • Noida & Delhi NCR</span>
             </div>
           </div>
 

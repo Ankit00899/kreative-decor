@@ -40,7 +40,7 @@ export const AboutPage: React.FC = () => {
             Crafting Magical Celebrations with Heart & Precision
           </h1>
           <p className="text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl mx-auto">
-            Founded by <strong>{settings.ownerName}</strong>, Ankit Event Decor transforms spaces into unforgettable visual experiences across Delhi NCR and Lucknow.
+            Founded by <strong>{settings.ownerName}</strong>, {settings.businessName || 'Kreative Decor'} transforms spaces into unforgettable visual experiences across Sector 7, Sector 51, Sector 12, Noida, and Delhi NCR.
           </p>
         </div>
       </section>

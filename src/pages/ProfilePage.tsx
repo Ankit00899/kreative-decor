@@ -29,14 +29,24 @@ export const ProfilePage: React.FC = () => {
     formatPrice,
   } = useApp();
 
-  const tabParam = searchParams.get('tab') || 'profile';
+  const tabParam = searchParams.get('tab') || (currentUser ? 'profile' : 'wishlist');
   const [activeTab, setActiveTab] = useState(tabParam);
 
-  const [name, setName] = useState(currentUser?.name || 'Ankit Kumar');
-  const [phone, setPhone] = useState(currentUser?.phone || '+91 96502 46245');
+  const [name, setName] = useState(currentUser?.name || '');
+  const [phone, setPhone] = useState(currentUser?.phone || '');
   const [city, setCity] = useState(currentUser?.city || 'Noida');
-  const [address, setAddress] = useState(currentUser?.address || 'Sector 62, Noida');
+  const [address, setAddress] = useState(currentUser?.address || '');
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Sync state if currentUser changes
+  React.useEffect(() => {
+    if (currentUser) {
+      setName(currentUser.name || '');
+      setPhone(currentUser.phone || '');
+      setCity(currentUser.city || 'Noida');
+      setAddress(currentUser.address || '');
+    }
+  }, [currentUser]);
 
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,27 +63,46 @@ export const ProfilePage: React.FC = () => {
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#F8E7EC] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4 text-center sm:text-left">
           <div className="w-16 h-16 rounded-full bg-[#701F3D] text-[#D6B36A] font-serif font-bold text-2xl flex items-center justify-center border-2 border-[#D6B36A]">
-            {name ? name.charAt(0).toUpperCase() : 'U'}
+            {currentUser?.name ? currentUser.name.charAt(0).toUpperCase() : <User className="w-7 h-7 text-[#D6B36A]" />}
           </div>
           <div>
             <span className="text-[10px] text-[#701F3D] font-bold uppercase tracking-wider bg-[#F8E7EC] px-2.5 py-0.5 rounded-full">
-              Customer Account
+              {currentUser ? 'Customer Account' : 'Guest Visitor'}
             </span>
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#29252A] mt-1">
-              {name || 'Valued Client'}
+              {currentUser?.name || 'Welcome to Kreative Decor'}
             </h1>
-            <p className="text-xs text-gray-500">{currentUser?.email || 'customer@example.com'}</p>
+            <p className="text-xs text-gray-500">
+              {currentUser?.email || currentUser?.phone || 'Sign in to access your customized bookings and addresses.'}
+            </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            onClick={logoutUser}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 text-xs font-semibold transition-colors cursor-pointer"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-            <span>Sign Out</span>
-          </button>
+          {currentUser ? (
+            <button
+              onClick={logoutUser}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 text-xs font-semibold transition-colors cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Sign Out</span>
+            </button>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link
+                to="/login"
+                className="px-4 py-2 rounded-xl bg-[#701F3D] hover:bg-[#52132A] text-white text-xs font-bold transition-all shadow-sm"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 py-2 rounded-xl border border-[#701F3D] text-[#701F3D] hover:bg-[#F8E7EC] text-xs font-bold transition-all"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
@@ -128,27 +157,49 @@ export const ProfilePage: React.FC = () => {
       {/* Tab 1: Profile & Contact Details */}
       {activeTab === 'profile' && (
         <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#F8E7EC] shadow-sm max-w-2xl space-y-6">
-          <div className="space-y-1">
-            <h2 className="font-serif text-xl font-bold text-[#29252A]">
-              Personal Contact Details
-            </h2>
-            <p className="text-xs text-gray-500">
-              These details pre-fill your event booking requests for faster coordination.
-            </p>
-          </div>
-
-          {saveSuccess && (
-            <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Contact details saved successfully!</span>
+          {!currentUser ? (
+            <div className="text-center py-6 space-y-4">
+              <div className="w-12 h-12 rounded-full bg-[#F8E7EC] text-[#701F3D] flex items-center justify-center mx-auto">
+                <User className="w-6 h-6" />
+              </div>
+              <h3 className="font-serif text-xl font-bold text-[#701F3D]">
+                Sign In to Manage Your Profile
+              </h3>
+              <p className="text-xs text-gray-600 max-w-sm mx-auto">
+                Create an account or log in with your email or mobile to track bookings, save your address, and view wishlist.
+              </p>
+              <div className="flex items-center justify-center gap-3 pt-2">
+                <Link to="/login" className="px-5 py-2.5 rounded-xl bg-[#701F3D] text-white text-xs font-bold hover:bg-[#52132A]">
+                  Sign In
+                </Link>
+                <Link to="/signup" className="px-5 py-2.5 rounded-xl border border-[#701F3D] text-[#701F3D] text-xs font-bold hover:bg-[#F8E7EC]">
+                  Create Account
+                </Link>
+              </div>
             </div>
-          )}
+          ) : (
+            <>
+              <div className="space-y-1">
+                <h2 className="font-serif text-xl font-bold text-[#29252A]">
+                  Personal Contact Details
+                </h2>
+                <p className="text-xs text-gray-500">
+                  These details pre-fill your event booking requests for faster coordination.
+                </p>
+              </div>
 
-          <form onSubmit={handleUpdate} className="space-y-4">
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Full Name
-              </label>
+              {saveSuccess && (
+                <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Contact details saved successfully!</span>
+                </div>
+              )}
+
+              <form onSubmit={handleUpdate} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Full Name
+                  </label>
               <input
                 type="text"
                 required
@@ -208,6 +259,8 @@ export const ProfilePage: React.FC = () => {
               Save Profile Details
             </button>
           </form>
+          </>
+          )}
         </div>
       )}
 

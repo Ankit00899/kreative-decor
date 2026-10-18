@@ -33,7 +33,7 @@ export const ContactPage: React.FC = () => {
   const [whatsappUrl, setWhatsappUrl] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const cleanPhone = settings.whatsappNumber || settings.phoneNumber.replace(/[^0-9]/g, '') || '919650246245';
+  const cleanPhone = settings.whatsappNumber || settings.phoneNumber.replace(/[^0-9]/g, '') || '919878895539';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,7 +58,7 @@ export const ContactPage: React.FC = () => {
       setSubmittedInquiry(savedInq);
 
       const waMsg = `🎉 *NEW EVENT DECORATION INQUIRY* 🎉
-*Ankit Event Decor (Ankit Kumar)*
+*Kreative Decor (Sector 7, Sector 51, Sector 12, Noida)*
 -----------------------------------
 👤 *Name:* ${formData.customerName.trim()}
 📱 *WhatsApp:* ${formData.phone.trim()}
@@ -66,7 +66,7 @@ ${formData.email.trim() ? `✉️ *Email:* ${formData.email.trim()}\n` : ''}🎈
 ${formData.eventDate ? `🗓️ *Target Date:* ${formData.eventDate}\n` : ''}🏠 *Venue:* ${formData.venueType}
 📝 *Requirements:* ${formData.message.trim()}
 -----------------------------------
-Hi Ankit, please let me know availability and quotation on WhatsApp!`;
+Hi Kreative Decor, please let me know availability and quotation on WhatsApp!`;
 
       const waLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMsg)}`;
       setWhatsappUrl(waLink);
@@ -89,7 +89,7 @@ Hi Ankit, please let me know availability and quotation on WhatsApp!`;
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F8E7EC] text-[#701F3D] text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5 text-[#D6B36A]" />
-          <span>Get In Touch with Ankit Kumar</span>
+          <span>Get In Touch with Kreative Decor</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-5xl font-bold text-[#29252A]">
           Contact & Event Support

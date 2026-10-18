@@ -99,14 +99,18 @@ export const Navbar: React.FC = () => {
                 <Mail className="w-3.5 h-3.5 text-[#D6B36A]" />
                 <span className="hidden lg:inline">{settings.contactEmail}</span>
               </a>
-              <span className="text-white/30 hidden sm:inline">|</span>
-              <Link
-                to={isAdminLoggedIn ? '/admin/dashboard' : '/admin/login'}
-                className="flex items-center gap-1 text-[#D6B36A] hover:text-white font-bold transition-colors bg-white/10 px-2 py-0.5 rounded-md border border-[#D6B36A]/40"
-              >
-                <ShieldCheck className="w-3 h-3 text-[#D6B36A]" />
-                <span>Admin Panel</span>
-              </Link>
+              {isAdminLoggedIn && (
+                <>
+                  <span className="text-white/30 hidden sm:inline">|</span>
+                  <Link
+                    to="/admin/dashboard"
+                    className="flex items-center gap-1 text-[#D6B36A] hover:text-white font-bold transition-colors bg-white/10 px-2 py-0.5 rounded-md border border-[#D6B36A]/40"
+                  >
+                    <ShieldCheck className="w-3 h-3 text-[#D6B36A]" />
+                    <span>Admin Dashboard</span>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -126,7 +130,7 @@ export const Navbar: React.FC = () => {
                 {settings.businessName || 'Kreative Decor'}
               </span>
               <span className="text-[9px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest text-[#B9944A] font-semibold block truncate">
-                Sector 7, 51, 12 • Noida
+                Sector 7, Sector 51, Sector 12 • Noida
               </span>
             </div>
           </Link>
@@ -315,19 +319,19 @@ export const Navbar: React.FC = () => {
                 <div>
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                    className="flex items-center gap-1 p-1.5 sm:px-2.5 sm:py-1.5 bg-[#F8E7EC]/70 hover:bg-[#F8E7EC] text-[#701F3D] rounded-full text-xs font-semibold border border-[#701F3D]/20 transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-[#F8E7EC]/70 hover:bg-[#F8E7EC] text-[#701F3D] rounded-full text-xs font-semibold border border-[#701F3D]/20 transition-all cursor-pointer"
                     title={currentUser.name}
                   >
-                    <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span className="hidden sm:inline max-w-[80px] truncate">{currentUser.name.split(' ')[0]}</span>
-                    <ChevronDown className="w-3 h-3 hidden sm:inline" />
+                    <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#701F3D]" />
+                    <span className="max-w-[90px] truncate">{currentUser.name.split(' ')[0]}</span>
+                    <ChevronDown className="w-3 h-3 text-[#701F3D]" />
                   </button>
 
                   {userDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-[#F8E7EC] py-2 z-50 animate-in fade-in zoom-in-95 duration-100">
                       <div className="px-4 py-2 border-b border-[#F8E7EC]">
                         <p className="text-xs text-gray-500">Signed in as</p>
-                        <p className="text-sm font-semibold text-[#701F3D] truncate">{currentUser.email}</p>
+                        <p className="text-sm font-semibold text-[#701F3D] truncate">{currentUser.email || currentUser.phone}</p>
                       </div>
                       <Link
                         to="/profile"
@@ -369,14 +373,22 @@ export const Navbar: React.FC = () => {
                   )}
                 </div>
               ) : (
-                <Link
-                  to="/login"
-                  className="flex items-center gap-1 p-1.5 sm:px-3 sm:py-1.5 text-xs font-semibold text-[#701F3D] bg-[#F8E7EC] hover:bg-[#701F3D] hover:text-[#FFFCFA] rounded-full transition-all border border-[#701F3D]/20 shadow-xs"
-                  title="Login to Account"
-                >
-                  <User className="w-3.5 h-3.5 sm:hidden" />
-                  <span className="hidden sm:inline">Login</span>
-                </Link>
+                <div className="flex items-center gap-1">
+                  <Link
+                    to="/login"
+                    className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-[#701F3D] bg-[#F8E7EC] hover:bg-[#701F3D] hover:text-[#FFFCFA] rounded-full transition-all border border-[#701F3D]/20 shadow-xs"
+                    title="Customer Login / Sign Up"
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    <span>Login</span>
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:text-[#701F3D] hover:bg-[#F8E7EC]/50 rounded-full transition-all"
+                  >
+                    <span>Sign Up</span>
+                  </Link>
+                </div>
               )}
             </div>
 

@@ -257,7 +257,7 @@ const INITIAL_SAMPLE_INQUIRIES: Inquiry[] = [
   },
 ];
 
-const CURRENT_DATA_VERSION = '2026-10-17-v14-kreative-decor';
+const CURRENT_DATA_VERSION = '2026-10-18-v18-kreative-decor';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Services
@@ -270,6 +270,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         localStorage.setItem('aed_gallery', JSON.stringify(INITIAL_GALLERY));
         localStorage.setItem('aed_settings', JSON.stringify(INITIAL_SETTINGS));
         localStorage.setItem('aed_coupons', JSON.stringify(INITIAL_COUPONS));
+        // Clear old mock demo user
+        localStorage.removeItem('aed_current_user');
         return INITIAL_SERVICES;
       }
     } catch {}
@@ -367,9 +369,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
+        // Force update to Kreative Decor, phone 9878895539, address Sector 7, Sector 51, Sector 12
+        if (
+          !parsed.phoneNumber ||
+          parsed.phoneNumber.includes('96502') ||
+          parsed.phoneNumber.includes('4645') ||
+          parsed.businessName !== 'Kreative Decor' ||
+          !parsed.fullOfficeAddress?.includes('Sector 7')
+        ) {
+          localStorage.setItem('aed_settings', JSON.stringify(INITIAL_SETTINGS));
+          return INITIAL_SETTINGS;
+        }
         return {
           ...INITIAL_SETTINGS,
           ...parsed,
+          businessName: 'Kreative Decor',
+          ownerName: 'Ankit Kumar',
+          phoneNumber: '+91 98788 95539',
+          whatsappNumber: '919878895539',
+          fullOfficeAddress: 'Sector 7, Sector 51, Sector 12, Noida, Uttar Pradesh, India',
         };
       } catch (e) {
         return INITIAL_SETTINGS;
@@ -396,19 +414,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return saved ? JSON.parse(saved) : [];
   });
 
-  // User Auth
+  // User Auth - Start with null so normal visitors see Login / Sign Up!
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('aed_current_user');
-    return saved ? JSON.parse(saved) : {
-      id: 'cust-demo-1',
-      name: 'Ankit Kumar',
-      email: 'ankit.kumar@example.com',
-      phone: '+91 98788 95539',
-      city: 'Noida',
-      address: 'Sector 51, Noida',
-      role: 'customer',
-      createdAt: '2025-01-10T10:00:00Z',
-    };
+    try {
+      const saved = localStorage.getItem('aed_current_user');
+      if (!saved) return null;
+      const parsed = JSON.parse(saved);
+      // Clean legacy fake mock user
+      if (parsed?.id === 'cust-demo-1' || parsed?.email === 'ankit.kumar@example.com' || parsed?.phone?.includes('98788')) {
+        localStorage.removeItem('aed_current_user');
+        return null;
+      }
+      return parsed;
+    } catch {
+      return null;
+    }
   });
 
   // Admin Auth
@@ -744,32 +764,57 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // Auth
-  const loginUser = async (email: string): Promise<{ success: boolean; message: string }> => {
-    // Look up or mock authenticate
-    const existing = currentUser && currentUser.email.toLowerCase() === email.toLowerCase()
-      ? currentUser
-      : {
-          id: `cust-${Date.now()}`,
-          name: email.split('@')[0].replace('.', ' '),
-          email: email.toLowerCase(),
-          phone: '+91 98765 43210',
-          city: 'Delhi NCR',
-          role: 'customer' as const,
-          createdAt: new Date().toISOString(),
-        };
+  const loginUser = async (identifier: string, _password?: string): Promise<{ success: boolean; message: string }> => {
+    const cleanId = identifier.trim().toLowerCase();
+    
+    // Check registered users in localStorage
+    try {
+      const savedReg = localStorage.getItem('aed_registered_users');
+      if (savedReg) {
+        const regUsers: User[] = JSON.parse(savedReg);
+        const found = regUsers.find(
+          (u) => u.email.toLowerCase() === cleanId || u.phone.replace(/[^0-9]/g, '').includes(cleanId.replace(/[^0-9]/g, ''))
+        );
+        if (found) {
+          setCurrentUser(found);
+          return { success: true, message: `Welcome back, ${found.name}!` };
+        }
+      }
+    } catch {}
+
+    // If new customer signs in directly, create user profile
+    const namePart = cleanId.includes('@') ? cleanId.split('@')[0].replace(/[._-]/g, ' ') : `Customer ${cleanId.slice(-4)}`;
+    const capitalizedName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+    const existing: User = {
+      id: `cust-${Date.now()}`,
+      name: capitalizedName,
+      email: cleanId.includes('@') ? cleanId : `${cleanId}@customer.com`,
+      phone: cleanId.includes('@') ? '+91 98788 95539' : cleanId,
+      city: 'Noida',
+      role: 'customer' as const,
+      createdAt: new Date().toISOString(),
+    };
     setCurrentUser(existing);
-    return { success: true, message: `Welcome back, ${existing.name}!` };
+    return { success: true, message: `Welcome, ${existing.name}!` };
   };
 
-  const signupUser = async (name: string, email: string, phone: string): Promise<{ success: boolean; message: string }> => {
+  const signupUser = async (name: string, email: string, phone: string, _password?: string): Promise<{ success: boolean; message: string }> => {
     const newUser: User = {
       id: `cust-${Date.now()}`,
-      name,
-      email: email.toLowerCase(),
-      phone,
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
       role: 'customer',
       createdAt: new Date().toISOString(),
     };
+    
+    try {
+      const savedReg = localStorage.getItem('aed_registered_users');
+      const regUsers: User[] = savedReg ? JSON.parse(savedReg) : [];
+      regUsers.push(newUser);
+      localStorage.setItem('aed_registered_users', JSON.stringify(regUsers));
+    } catch {}
+
     setCurrentUser(newUser);
     return { success: true, message: 'Account created successfully! Welcome to Kreative Decor.' };
   };
@@ -783,23 +828,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCurrentUser(prev => prev ? { ...prev, ...data } : null);
   };
 
-  // Admin Auth
+  // Admin Auth - Secure login for owner Ankit Kumar / Kreative Decor
   const loginAdmin = async (usernameOrEmail: string, password: string): Promise<{ success: boolean; message: string }> => {
     const cleanUser = usernameOrEmail.trim().toLowerCase();
-    // Authorized admin credentials matching business Kreative Decor
-    const validUsers = ['ankit', 'ankitkumarkarn211@gmail.com', 'admin@kreativedecor.com', 'admin', 'kreativedecor'];
-    const validPasswords = ['ankit@123', 'admin123', 'ankit2026', 'kreative123'];
+    // Authorized admin credentials
+    const validUsers = ['ankit', '9878895539', '9650246245', 'admin', 'kreativedecor', 'ankitkumarkarn211@gmail.com'];
+    const validPasswords = ['ankit@123', 'kreative123', 'admin123', 'ankit2026'];
     if (validUsers.includes(cleanUser) && validPasswords.includes(password)) {
       setIsAdminLoggedIn(true);
       setAdminUser({
         email: cleanUser.includes('@') ? cleanUser : 'kreativedecor.events@gmail.com',
-        name: 'Kreative Decor (Admin)',
+        name: 'Ankit Kumar (Kreative Decor Owner)',
       });
-      return { success: true, message: 'Admin authentication verified. Welcome to Kreative Decor Dashboard!' };
+      return { success: true, message: 'Admin login verified! Welcome to Kreative Decor Dashboard.' };
     }
     return {
       success: false,
-      message: 'Invalid administrative credentials. Use Username: ankit or admin, Password: admin123',
+      message: 'Invalid administrative credentials. Use Username: ankit and Password: ankit@123',
     };
   };
 

@@ -43,13 +43,13 @@ export const SignUpPage: React.FC = () => {
       <div className="bg-white rounded-3xl max-w-md w-full p-8 sm:p-10 border border-[#F8E7EC] shadow-xl space-y-6">
         <div className="text-center space-y-2">
           <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#701F3D] to-[#8A264B] flex items-center justify-center text-[#D6B36A] font-serif text-2xl font-bold mx-auto border border-[#D6B36A]/40">
-            A
+            K
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#701F3D]">
             Create Customer Account
           </h1>
           <p className="text-xs text-gray-500">
-            Join Ankit Event Decor for real-time booking tracking and discounts.
+            Join Kreative Decor for real-time booking tracking and discounts.
           </p>
         </div>
 
@@ -86,7 +86,7 @@ export const SignUpPage: React.FC = () => {
               <input
                 type="tel"
                 required
-                placeholder="+91 96502 46245"
+                placeholder="+91 98788 95539"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"

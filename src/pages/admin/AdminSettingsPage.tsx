@@ -44,20 +44,20 @@ export const AdminSettingsPage: React.FC = () => {
 
   // Business info state
   const [ownerName, setOwnerName] = useState(settings.ownerName || 'Ankit Kumar');
-  const [businessName, setBusinessName] = useState(settings.businessName || 'Ankit Event Decor');
-  const [contactEmail, setContactEmail] = useState(settings.contactEmail || 'ankitkumarkarn211@gmail.com');
-  const [phoneNumber, setPhoneNumber] = useState(settings.phoneNumber || '+91 96502 46245');
-  const [whatsappNumber, setWhatsappNumber] = useState(settings.whatsappNumber || '919650246245');
+  const [businessName, setBusinessName] = useState(settings.businessName || 'Kreative Decor');
+  const [contactEmail, setContactEmail] = useState(settings.contactEmail || 'kreativedecor.events@gmail.com');
+  const [phoneNumber, setPhoneNumber] = useState(settings.phoneNumber || '+91 98788 95539');
+  const [whatsappNumber, setWhatsappNumber] = useState(settings.whatsappNumber || '919878895539');
   const [fullOfficeAddress, setFullOfficeAddress] = useState(
-    settings.fullOfficeAddress || 'Sector 62, Noida, NCR Delhi & Lucknow Region, India'
+    settings.fullOfficeAddress || 'Sector 7, Sector 51, Sector 12, Noida, Uttar Pradesh, India'
   );
   const [citiesServed, setCitiesServed] = useState(
-    (settings.citiesServed || ['Delhi NCR', 'Noida', 'Gurugram', 'Ghaziabad', 'Lucknow']).join(', ')
+    (settings.citiesServed || ['Sector 7, Noida', 'Sector 51, Noida', 'Sector 12, Noida', 'Noida', 'Delhi NCR', 'Greater Noida']).join(', ')
   );
 
   // Hero section state
   const [heroBadgeText, setHeroBadgeText] = useState(
-    settings.heroBadgeText || 'Curated by Ankit Kumar • Delhi NCR & Lucknow'
+    settings.heroBadgeText || 'Curated by Kreative Decor • Sector 7, Sector 51, Sector 12 & Noida'
   );
   const [heroTitle, setHeroTitle] = useState(
     settings.heroTitle || 'We Make Every Celebration Unforgettable.'
@@ -75,7 +75,7 @@ export const AdminSettingsPage: React.FC = () => {
   );
 
   // Payment state
-  const [upiId, setUpiId] = useState(settings.upiId || '9650246245@paytm');
+  const [upiId, setUpiId] = useState(settings.upiId || '9878895539@paytm');
   const [upiQrCodeImage, setUpiQrCodeImage] = useState(settings.upiQrCodeImage || '');
 
   // Announcement state
