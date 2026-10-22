@@ -26,7 +26,6 @@ export const Navbar: React.FC = () => {
     wishlist,
     currentUser,
     logoutUser,
-    isAdminLoggedIn,
     services,
   } = useApp();
 
@@ -100,18 +99,7 @@ export const Navbar: React.FC = () => {
                 <Mail className="w-3.5 h-3.5 text-[#D6B36A]" />
                 <span className="hidden lg:inline">{settings.contactEmail}</span>
               </a>
-              {isAdminLoggedIn && (
-                <>
-                  <span className="text-white/30 hidden sm:inline">|</span>
-                  <Link
-                    to="/admin/dashboard"
-                    className="flex items-center gap-1 text-[#D6B36A] hover:text-white font-bold transition-colors bg-white/10 px-2 py-0.5 rounded-md border border-[#D6B36A]/40"
-                  >
-                    <ShieldCheck className="w-3 h-3 text-[#D6B36A]" />
-                    <span>Admin Dashboard</span>
-                  </Link>
-                </>
-              )}
+
             </div>
           </div>
         </div>
@@ -324,17 +312,7 @@ export const Navbar: React.FC = () => {
               <span>Call Us</span>
             </a>
 
-            {/* Admin Dashboard Quick Link (Discreetly visible only if admin authenticated) */}
-            {isAdminLoggedIn && (
-              <Link
-                to="/admin/dashboard"
-                className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 bg-amber-500/20 text-[#701F3D] border border-amber-500/40 rounded-full text-xs font-bold"
-                title="Admin Control Panel"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-[#701F3D]" />
-                <span>Admin</span>
-              </Link>
-            )}
+
 
             {/* Book Now Primary Button (Desktop/Tablet) */}
             <Link

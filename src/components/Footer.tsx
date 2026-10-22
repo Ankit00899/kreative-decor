@@ -17,7 +17,7 @@ import {
 import { useApp } from '../context/AppContext';
 
 export const Footer: React.FC = () => {
-  const { settings, isAdminLoggedIn } = useApp();
+  const { settings } = useApp();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
 
@@ -236,15 +236,6 @@ export const Footer: React.FC = () => {
             <span>•</span>
             <Link to="/contact" className="hover:text-white transition-colors">
               Support
-            </Link>
-            <span>•</span>
-            <Link
-              to={isAdminLoggedIn ? '/admin/dashboard' : '/admin/login'}
-              className="inline-flex items-center gap-1 text-gray-400 hover:text-[#D6B36A] transition-colors font-medium px-2 py-0.5 rounded-sm hover:bg-white/5"
-              title="Admin / Owner Executive Portal"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#D6B36A]" />
-              <span>{isAdminLoggedIn ? 'Admin Dashboard' : 'Admin Login'}</span>
             </Link>
           </div>
         </div>
