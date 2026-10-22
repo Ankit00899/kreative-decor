@@ -31,7 +31,7 @@ export const AdminGalleryPage: React.FC = () => {
     categoryLabel: 'Birthday',
     imageUrl: '',
     description: '',
-    eventLocation: 'Noida Sector 50, Delhi NCR',
+    eventLocation: 'Gurgaon Sector 50, Delhi NCR',
     isFeatured: true,
   });
 
@@ -58,7 +58,7 @@ export const AdminGalleryPage: React.FC = () => {
       categoryLabel: 'Birthday',
       imageUrl: '',
       description: '',
-      eventLocation: 'Noida, Delhi NCR',
+      eventLocation: 'Gurgaon, Delhi NCR',
       isFeatured: true,
     });
     setModalOpen(true);
@@ -346,7 +346,7 @@ export const AdminGalleryPage: React.FC = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. Sector 50 Noida, Gurugram"
+                      placeholder="e.g. DLF Phase 5, Gurgaon"
                       value={formData.eventLocation}
                       onChange={(e) => setFormData({ ...formData, eventLocation: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden text-xs"

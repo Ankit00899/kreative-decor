@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
                   {settings.businessName}
                 </span>
                 <span className="text-xs uppercase tracking-widest text-[#D6B36A] font-medium block">
-                  Sector 7, Sector 51, Sector 12 • Noida
+                  Sector 7, Sector 51, Sector 12 • Gurgaon
                 </span>
               </div>
             </div>
@@ -83,7 +83,7 @@ export const Footer: React.FC = () => {
 
             <div className="flex items-center gap-3 text-xs text-gray-400 pt-2">
               <span>Locations:</span>
-              <span className="text-[#D6B36A] font-medium">Sector 7 • Sector 51 • Sector 12 • Noida & Delhi NCR</span>
+              <span className="text-[#D6B36A] font-medium">Sector 7 • Sector 51 • Sector 12 • Gurgaon & Delhi NCR</span>
             </div>
           </div>
 

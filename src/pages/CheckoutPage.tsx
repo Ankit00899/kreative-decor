@@ -20,7 +20,7 @@ export const CheckoutPage: React.FC = () => {
   const [customerPhone, setCustomerPhone] = useState(currentUser?.phone || '');
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('05:00 PM');
-  const [city, setCity] = useState(currentUser?.city || 'Noida');
+  const [city, setCity] = useState(currentUser?.city || 'Gurgaon');
   const [venueType, setVenueType] = useState('Home / Living Room');
   const [deliveryAddress, setDeliveryAddress] = useState(currentUser?.address || '');
   const [notes, setNotes] = useState('');
@@ -248,7 +248,7 @@ Hi Kamal Kumar, please review my booking details and confirm quotation & availab
                     onChange={(e) => setCity(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden bg-white"
                   >
-                    <option value="Noida">Noida / Greater Noida</option>
+                    <option value="Gurgaon">Gurgaon / Gurugram</option>
                     <option value="Delhi">Delhi NCR</option>
                     <option value="Gurugram">Gurugram</option>
                     <option value="Ghaziabad">Ghaziabad</option>
@@ -283,7 +283,7 @@ Hi Kamal Kumar, please review my booking details and confirm quotation & availab
                     required
                     value={deliveryAddress}
                     onChange={(e) => setDeliveryAddress(e.target.value)}
-                    placeholder="e.g. Tower B, Flat 402, Prateek Edifice, Sector 107, Noida"
+                    placeholder="e.g. Tower B, Flat 402, DLF Phase 5, Sector 54, Gurgaon"
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden resize-none"
                   />
                 </div>

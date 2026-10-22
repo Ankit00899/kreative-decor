@@ -106,8 +106,8 @@ const INITIAL_SAMPLE_BOOKINGS: Booking[] = [
     eventType: 'Birthday Party',
     eventDate: '2025-03-28',
     eventTime: '05:30 PM',
-    eventCity: 'Noida',
-    fullAddress: 'Tower B, Flat 402, Prateek Edifice, Sector 107, Noida',
+    eventCity: 'Gurgaon',
+    fullAddress: 'Tower B, Flat 402, DLF Phase 5, Sector 54, Gurgaon',
     expectedBudget: 5500,
     guestCount: 25,
     decorationPreferences: 'Rose gold, champagne gold, customized neon sign with name "Aarav turns 5"',
@@ -235,7 +235,7 @@ const INITIAL_SAMPLE_INQUIRIES: Inquiry[] = [
     eventCategory: 'Romantic Room Decoration',
     eventDate: '2025-03-30',
     estimatedBudget: '₹3,000 - ₹5,000',
-    message: 'Want to decorate our hotel room in Noida for my husband’s birthday surprise. Can you provide helium balloons and red rose pathway?',
+    message: 'Want to decorate our hotel room in Gurgaon for my husband’s birthday surprise. Can you provide helium balloons and red rose pathway?',
     status: 'Contacted',
     internalNotes: 'Spoke over phone. Shared package PDF via WhatsApp.',
     followUpDate: '2025-03-22',
@@ -375,7 +375,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           parsed.phoneNumber.includes('96502') ||
           parsed.phoneNumber.includes('4645') ||
           parsed.businessName !== 'Kreative Decor' ||
-          !parsed.fullOfficeAddress?.includes('Sector 7')
+          !parsed.fullOfficeAddress?.includes('Sector 7') ||
+          parsed.fullOfficeAddress?.includes('Noida') ||
+          parsed.heroBadgeText?.includes('Noida')
         ) {
           localStorage.setItem('aed_settings', JSON.stringify(INITIAL_SETTINGS));
           return INITIAL_SETTINGS;
@@ -387,7 +389,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           ownerName: 'Kamal Kumar',
           phoneNumber: '+91 98788 95539',
           whatsappNumber: '919878895539',
-          fullOfficeAddress: 'Sector 7, Sector 51, Sector 12, Noida, Uttar Pradesh, India',
+          fullOfficeAddress: 'Sector 7, Sector 51, Sector 12, Gurgaon, Haryana, India',
+          heroBadgeText: (parsed.heroBadgeText || '').replace(/Noida/gi, 'Gurgaon') || INITIAL_SETTINGS.heroBadgeText,
+          aboutStory: (parsed.aboutStory || '').replace(/Noida/gi, 'Gurgaon') || INITIAL_SETTINGS.aboutStory,
+          citiesServed: (parsed.citiesServed || []).map((c: string) => c.replace(/Noida/gi, 'Gurgaon')),
         };
       } catch (e) {
         return INITIAL_SETTINGS;
@@ -790,7 +795,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       name: capitalizedName,
       email: cleanId.includes('@') ? cleanId : `${cleanId}@customer.com`,
       phone: cleanId.includes('@') ? '+91 98788 95539' : cleanId,
-      city: 'Noida',
+      city: 'Gurgaon',
       role: 'customer' as const,
       createdAt: new Date().toISOString(),
     };

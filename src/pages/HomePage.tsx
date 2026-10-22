@@ -96,7 +96,7 @@ export const HomePage: React.FC = () => {
             <Sparkles className="w-4 h-4 text-[#D6B36A]" />
             <span>
               {settings.heroBadgeText ||
-                `Curated by ${settings.ownerName || 'Kamal Kumar'} • Sector 7, Sector 51, Sector 12, Noida`}
+                `Curated by ${settings.ownerName || 'Kamal Kumar'} • Sector 7, Sector 51, Sector 12, Gurgaon`}
             </span>
           </div>
 

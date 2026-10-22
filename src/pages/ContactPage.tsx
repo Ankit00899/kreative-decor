@@ -58,7 +58,7 @@ export const ContactPage: React.FC = () => {
       setSubmittedInquiry(savedInq);
 
       const waMsg = `🎉 *NEW EVENT DECORATION INQUIRY* 🎉
-*Kreative Decor (Sector 7, Sector 51, Sector 12, Noida)*
+*Kreative Decor (Sector 7, Sector 51, Sector 12, Gurgaon)*
 -----------------------------------
 👤 *Name:* ${formData.customerName.trim()}
 📱 *WhatsApp:* ${formData.phone.trim()}

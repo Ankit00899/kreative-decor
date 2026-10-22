@@ -131,7 +131,7 @@ export const Navbar: React.FC = () => {
                 {settings.businessName || 'Kreative Decor'}
               </span>
               <span className="text-[9px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest text-[#B9944A] font-semibold block truncate">
-                Founded by Kamal Kumar • Sector 7, 51, 12 Noida
+                Founded by Kamal Kumar • Sector 7, 51, 12 Gurgaon
               </span>
             </div>
           </Link>

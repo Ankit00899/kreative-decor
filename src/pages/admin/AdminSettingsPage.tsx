@@ -49,15 +49,15 @@ export const AdminSettingsPage: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState(settings.phoneNumber || '+91 98788 95539');
   const [whatsappNumber, setWhatsappNumber] = useState(settings.whatsappNumber || '919878895539');
   const [fullOfficeAddress, setFullOfficeAddress] = useState(
-    settings.fullOfficeAddress || 'Sector 7, Sector 51, Sector 12, Noida, Uttar Pradesh, India'
+    settings.fullOfficeAddress || 'Sector 7, Sector 51, Sector 12, Gurgaon, Haryana, India'
   );
   const [citiesServed, setCitiesServed] = useState(
-    (settings.citiesServed || ['Sector 7, Noida', 'Sector 51, Noida', 'Sector 12, Noida', 'Noida', 'Delhi NCR', 'Greater Noida']).join(', ')
+    (settings.citiesServed || ['Sector 7, Gurgaon', 'Sector 51, Gurgaon', 'Sector 12, Gurgaon', 'Gurgaon', 'Delhi NCR', 'DLF Cyber City']).join(', ')
   );
 
   // Hero section state
   const [heroBadgeText, setHeroBadgeText] = useState(
-    settings.heroBadgeText || 'Curated by Kreative Decor • Sector 7, Sector 51, Sector 12 & Noida'
+    settings.heroBadgeText || 'Curated by Kreative Decor • Sector 7, Sector 51, Sector 12 & Gurgaon'
   );
   const [heroTitle, setHeroTitle] = useState(
     settings.heroTitle || 'We Make Every Celebration Unforgettable.'
@@ -88,7 +88,7 @@ export const AdminSettingsPage: React.FC = () => {
   );
   const [aboutStory, setAboutStory] = useState(
     settings.aboutStory ||
-      'Founded by Kamal Kumar, Kreative Decor was born from a passion to turn ordinary spaces into magical celebration realms. Serving Sector 7, Sector 51, Sector 12, Noida, and across Delhi NCR, our dedicated styling artisans bring creative dreams to reality.'
+      'Founded by Kamal Kumar, Kreative Decor was born from a passion to turn ordinary spaces into magical celebration realms. Serving Sector 7, Sector 51, Sector 12, Gurgaon, and across Delhi NCR, our dedicated styling artisans bring creative dreams to reality.'
   );
   const [aboutFounderImage, setAboutFounderImage] = useState(
     settings.aboutFounderImage ||

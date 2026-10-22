@@ -49,7 +49,7 @@ export const ServiceDetailsPage: React.FC = () => {
   const [customerPhone, setCustomerPhone] = useState(currentUser?.phone || '');
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('05:30 PM');
-  const [eventCity, setEventCity] = useState(currentUser?.city || 'Noida');
+  const [eventCity, setEventCity] = useState(currentUser?.city || 'Gurgaon');
   const [venueType, setVenueType] = useState('Home / Living Room');
   const [fullAddress, setFullAddress] = useState(currentUser?.address || '');
   const [customFoilText, setCustomFoilText] = useState('');
@@ -567,7 +567,7 @@ Hi Kamal Kumar, please check date availability and send quotation & confirmation
                     onChange={(e) => setEventCity(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden bg-white"
                   >
-                    <option value="Noida">Noida / Greater Noida</option>
+                    <option value="Gurgaon">Gurgaon / Gurugram</option>
                     <option value="Delhi">Delhi NCR</option>
                     <option value="Gurugram">Gurugram</option>
                     <option value="Ghaziabad">Ghaziabad</option>

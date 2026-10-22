@@ -38,7 +38,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     eventType: service?.categoryLabel || 'Birthday Party',
     eventDate: '',
     eventTime: '05:00 PM',
-    eventCity: currentUser?.city || 'Noida',
+    eventCity: currentUser?.city || 'Gurgaon',
     venueType: 'Home / Living Room',
     fullAddress: currentUser?.address || '',
     decorationPreferences: service?.customizationOptions?.[0] || '',
@@ -66,7 +66,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   const generateWhatsAppMessage = (bookingRef: string) => {
     return `🎉 *NEW EVENT DECORATION BOOKING REQUEST* 🎉
-*Kreative Decor (Sector 7, Sector 51, Sector 12, Noida)*
+*Kreative Decor (Sector 7, Sector 51, Sector 12, Gurgaon)*
 -----------------------------------
 📋 *Service / Setup:* ${service ? service.title : formData.eventType}
 👤 *Customer Name:* ${formData.customerName.trim()}
@@ -376,9 +376,9 @@ Hi Kreative Decor, please check date availability and send quotation & setup con
                       onChange={(e) => setFormData({ ...formData, eventCity: e.target.value })}
                       className="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden bg-white"
                     >
-                      <option value="Noida">Noida / Greater Noida</option>
-                      <option value="Delhi">Delhi</option>
-                      <option value="Gurugram">Gurugram</option>
+                      <option value="Gurgaon">Gurgaon / Gurugram</option>
+                      <option value="Delhi">Delhi NCR</option>
+                      <option value="Faridabad">Faridabad</option>
                       <option value="Ghaziabad">Ghaziabad</option>
                       <option value="Lucknow">Lucknow</option>
                       <option value="Kanpur">Kanpur</option>

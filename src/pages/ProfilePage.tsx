@@ -34,7 +34,7 @@ export const ProfilePage: React.FC = () => {
 
   const [name, setName] = useState(currentUser?.name || '');
   const [phone, setPhone] = useState(currentUser?.phone || '');
-  const [city, setCity] = useState(currentUser?.city || 'Noida');
+  const [city, setCity] = useState(currentUser?.city || 'Gurgaon');
   const [address, setAddress] = useState(currentUser?.address || '');
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -43,7 +43,7 @@ export const ProfilePage: React.FC = () => {
     if (currentUser) {
       setName(currentUser.name || '');
       setPhone(currentUser.phone || '');
-      setCity(currentUser.city || 'Noida');
+      setCity(currentUser.city || 'Gurgaon');
       setAddress(currentUser.address || '');
     }
   }, [currentUser]);
@@ -231,7 +231,7 @@ export const ProfilePage: React.FC = () => {
                 onChange={(e) => setCity(e.target.value)}
                 className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden bg-white"
               >
-                <option value="Noida">Noida / Greater Noida</option>
+                <option value="Gurgaon">Gurgaon / Gurugram</option>
                 <option value="Delhi">Delhi NCR</option>
                 <option value="Gurugram">Gurugram</option>
                 <option value="Ghaziabad">Ghaziabad</option>
