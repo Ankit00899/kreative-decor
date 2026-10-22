@@ -118,7 +118,7 @@ const INITIAL_SAMPLE_BOOKINGS: Booking[] = [
     status: 'Confirmed',
     statusHistory: [
       { status: 'Pending', timestamp: '2025-03-10T11:00:00Z', updatedBy: 'System' },
-      { status: 'Confirmed', timestamp: '2025-03-11T09:30:00Z', note: 'Customer paid 30% advance via UPI. Team assigned.', updatedBy: 'Ankit Kumar (Admin)' },
+      { status: 'Confirmed', timestamp: '2025-03-11T09:30:00Z', note: 'Customer paid 30% advance via UPI. Team assigned.', updatedBy: 'Kamal Kumar (Admin)' },
     ],
     internalNotes: 'Staff Rohit & Manoj scheduled. Setup start time 2:00 PM.',
     totalEstimatedAmount: 5298,
@@ -176,8 +176,8 @@ const INITIAL_SAMPLE_BOOKINGS: Booking[] = [
     status: 'In Progress',
     statusHistory: [
       { status: 'Pending', timestamp: '2025-03-01T10:00:00Z', updatedBy: 'System' },
-      { status: 'Confirmed', timestamp: '2025-03-02T16:00:00Z', note: 'Advance received ₹10,000.', updatedBy: 'Ankit Kumar' },
-      { status: 'In Progress', timestamp: '2025-03-12T12:00:00Z', note: 'Floral procurement and carpentry framing finalized.', updatedBy: 'Ankit Kumar' },
+      { status: 'Confirmed', timestamp: '2025-03-02T16:00:00Z', note: 'Advance received ₹10,000.', updatedBy: 'Kamal Kumar' },
+      { status: 'In Progress', timestamp: '2025-03-12T12:00:00Z', note: 'Floral procurement and carpentry framing finalized.', updatedBy: 'Kamal Kumar' },
     ],
     internalNotes: 'Site visit completed with venue manager. Extra generator approved.',
     totalEstimatedAmount: 33497,
@@ -203,8 +203,8 @@ const INITIAL_SAMPLE_BOOKINGS: Booking[] = [
     status: 'Completed',
     statusHistory: [
       { status: 'Pending', timestamp: '2025-02-05T09:00:00Z', updatedBy: 'System' },
-      { status: 'Confirmed', timestamp: '2025-02-06T11:00:00Z', updatedBy: 'Ankit Kumar' },
-      { status: 'Completed', timestamp: '2025-02-14T20:00:00Z', note: 'Event concluded smoothly. Customer left 5 star review.', updatedBy: 'Ankit Kumar' },
+      { status: 'Confirmed', timestamp: '2025-02-06T11:00:00Z', updatedBy: 'Kamal Kumar' },
+      { status: 'Completed', timestamp: '2025-02-14T20:00:00Z', note: 'Event concluded smoothly. Customer left 5 star review.', updatedBy: 'Kamal Kumar' },
     ],
     internalNotes: 'All props returned to warehouse in top condition.',
     totalEstimatedAmount: 7498,
@@ -257,7 +257,7 @@ const INITIAL_SAMPLE_INQUIRIES: Inquiry[] = [
   },
 ];
 
-const CURRENT_DATA_VERSION = '2026-10-18-v18-kreative-decor';
+const CURRENT_DATA_VERSION = '2026-10-22-v22-kamal-kumar';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Services
@@ -384,7 +384,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           ...INITIAL_SETTINGS,
           ...parsed,
           businessName: 'Kreative Decor',
-          ownerName: 'Ankit Kumar',
+          ownerName: 'Kamal Kumar',
           phoneNumber: '+91 98788 95539',
           whatsappNumber: '919878895539',
           fullOfficeAddress: 'Sector 7, Sector 51, Sector 12, Noida, Uttar Pradesh, India',
@@ -439,8 +439,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [adminUser, setAdminUser] = useState<{ email: string; name: string } | null>(() => {
     const saved = localStorage.getItem('aed_admin_user');
     return saved ? JSON.parse(saved) : (localStorage.getItem('aed_admin_auth') === 'true' ? {
-      email: 'ankitkumarkarn211@gmail.com',
-      name: 'Ankit Kumar (Owner)',
+      email: 'kreativedecor.events@gmail.com',
+      name: 'Kamal Kumar (Owner)',
     } : null);
   });
 
@@ -828,23 +828,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCurrentUser(prev => prev ? { ...prev, ...data } : null);
   };
 
-  // Admin Auth - Secure login for owner Ankit Kumar / Kreative Decor
+  // Admin Auth - Secure login for owner Kamal Kumar / Kreative Decor
   const loginAdmin = async (usernameOrEmail: string, password: string): Promise<{ success: boolean; message: string }> => {
     const cleanUser = usernameOrEmail.trim().toLowerCase();
     // Authorized admin credentials
-    const validUsers = ['ankit', '9878895539', '9650246245', 'admin', 'kreativedecor', 'ankitkumarkarn211@gmail.com'];
-    const validPasswords = ['ankit@123', 'kreative123', 'admin123', 'ankit2026'];
+    const validUsers = ['kamal', 'kamalkumar', '9878895539', '9650246245', 'admin', 'kreativedecor', 'kreativedecor.events@gmail.com'];
+    const validPasswords = ['kamal@123', 'kreative123', 'admin123', 'kamal2026', 'ankit@123'];
     if (validUsers.includes(cleanUser) && validPasswords.includes(password)) {
       setIsAdminLoggedIn(true);
       setAdminUser({
         email: cleanUser.includes('@') ? cleanUser : 'kreativedecor.events@gmail.com',
-        name: 'Ankit Kumar (Kreative Decor Owner)',
+        name: 'Kamal Kumar (Kreative Decor Owner)',
       });
       return { success: true, message: 'Admin login verified! Welcome to Kreative Decor Dashboard.' };
     }
     return {
       success: false,
-      message: 'Invalid administrative credentials. Use Username: ankit and Password: ankit@123',
+      message: 'Invalid administrative credentials. Use Username: kamal (or 9878895539) and Password: kamal@123',
     };
   };
 

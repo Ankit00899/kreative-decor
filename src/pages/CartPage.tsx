@@ -31,9 +31,9 @@ export const CartPage: React.FC = () => {
     }).join('\n');
 
     const msg = `🎉 *NEW EVENT DECORATION INQUIRY / CART* 🎉
-*Ankit Event Decor (Ankit Kumar)*
+*Kreative Decor (Kamal Kumar)*
 -----------------------------------
-Hello Ankit, I would like to book the following decoration setup(s):
+Hello Kamal Kumar, I would like to book the following decoration setup(s):
 
 ${itemsList}
 
@@ -52,7 +52,7 @@ Please let me know date availability, total quotation, and required details!`;
           Your Selected Setups List is Empty
         </h2>
         <p className="text-xs sm:text-sm text-gray-500 max-w-md mx-auto">
-          Browse our signature packages and tap "Book Now" or contact Ankit Kumar directly on WhatsApp.
+          Browse our signature packages and tap "Book Now" or contact Kamal Kumar directly on WhatsApp.
         </p>
         <div className="pt-2 flex flex-wrap justify-center gap-3">
           <Link
@@ -63,7 +63,7 @@ Please let me know date availability, total quotation, and required details!`;
             <span>Browse All Packages</span>
           </Link>
           <a
-            href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent('Hi Ankit, I want to inquire about event decorations.')}`}
+            href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent('Hi Kamal Kumar, I want to inquire about event decorations.')}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#25D366] text-white text-xs font-bold hover:bg-[#20b857] transition-colors"
@@ -156,7 +156,7 @@ Please let me know date availability, total quotation, and required details!`;
             <div className="space-y-3 text-xs text-gray-600 border-b border-[#F8E7EC] pb-4">
               <div className="flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span>Send details directly to Ankit Kumar on WhatsApp</span>
+                <span>Send details directly to Kamal Kumar on WhatsApp</span>
               </div>
               <div className="flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
@@ -190,7 +190,7 @@ Please let me know date availability, total quotation, and required details!`;
                 className="text-xs text-gray-500 hover:text-[#701F3D] inline-flex items-center gap-1.5"
               >
                 <Phone className="w-3.5 h-3.5" />
-                <span>Call Ankit: {settings.phoneNumber}</span>
+                <span>Call Kamal Kumar: {settings.phoneNumber}</span>
               </a>
             </div>
           </div>

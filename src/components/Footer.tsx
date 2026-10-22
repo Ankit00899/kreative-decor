@@ -104,6 +104,16 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/category/wedding" className="hover:text-[#D6B36A] transition-colors">
+                  Wedding & Mandap Stages
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/haldi" className="hover:text-[#D6B36A] transition-colors">
+                  Haldi & Mehendi Celebrations
+                </Link>
+              </li>
+              <li>
                 <Link to="/category/romantic" className="hover:text-[#D6B36A] transition-colors">
                   Romantic Room & Cabana
                 </Link>
@@ -111,16 +121,6 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/category/balloon" className="hover:text-[#D6B36A] transition-colors">
                   Balloon Arches & Pillars
-                </Link>
-              </li>
-              <li>
-                <Link to="/category/baby-shower" className="hover:text-[#D6B36A] transition-colors">
-                  Baby Shower Celebrations
-                </Link>
-              </li>
-              <li>
-                <Link to="/category/wedding" className="hover:text-[#D6B36A] transition-colors">
-                  Wedding & Mandap Stages
                 </Link>
               </li>
             </ul>
@@ -134,7 +134,7 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
                 <Link to="/services" className="hover:text-[#D6B36A] transition-colors">
-                  All 10+ Packages
+                  All Decoration Packages
                 </Link>
               </li>
               <li>
@@ -144,7 +144,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/about" className="hover:text-[#D6B36A] transition-colors">
-                  About Ankit Kumar
+                  Founded by Kamal Kumar
                 </Link>
               </li>
               <li>
@@ -160,11 +160,6 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/contact" className="hover:text-[#D6B36A] transition-colors">
                   Contact & Support
-                </Link>
-              </li>
-              <li>
-                <Link to="/profile" className="hover:text-[#D6B36A] transition-colors">
-                  Customer Profile
                 </Link>
               </li>
             </ul>
@@ -230,17 +225,26 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
           <p>
-            © {new Date().getFullYear()} {settings.businessName}. Owned by Ankit Kumar. All rights reserved.
+            © {new Date().getFullYear()} {settings.businessName}. Founded by Kamal Kumar. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center">
             <span className="flex items-center gap-1 text-[#D6B36A]">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Handcrafted Premium Decor</span>
             </span>
             <span>•</span>
-            <Link to="/contact" className="hover:text-white">
+            <Link to="/contact" className="hover:text-white transition-colors">
               Support
+            </Link>
+            <span>•</span>
+            <Link
+              to={isAdminLoggedIn ? '/admin/dashboard' : '/admin/login'}
+              className="inline-flex items-center gap-1 text-gray-400 hover:text-[#D6B36A] transition-colors font-medium px-2 py-0.5 rounded-sm hover:bg-white/5"
+              title="Admin / Owner Executive Portal"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-[#D6B36A]" />
+              <span>{isAdminLoggedIn ? 'Admin Dashboard' : 'Admin Login'}</span>
             </Link>
           </div>
         </div>

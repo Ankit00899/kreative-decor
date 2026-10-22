@@ -7,8 +7,8 @@ export const AdminLoginPage: React.FC = () => {
   const { loginAdmin, settings } = useApp();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('ankit');
-  const [password, setPassword] = useState('ankit@123');
+  const [username, setUsername] = useState('kamal');
+  const [password, setPassword] = useState('kamal@123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -61,10 +61,10 @@ export const AdminLoginPage: React.FC = () => {
             <span>Owner Login Credentials:</span>
           </p>
           <p>
-            Username: <code className="font-mono text-gray-900 bg-gray-100 px-1.5 py-0.5 rounded font-bold">ankit</code>
+            Username: <code className="font-mono text-gray-900 bg-gray-100 px-1.5 py-0.5 rounded font-bold">kamal</code> <span className="text-gray-400">(or 9878895539)</span>
           </p>
           <p>
-            Password: <code className="font-mono text-gray-900 bg-gray-100 px-1.5 py-0.5 rounded font-bold">ankit@123</code>
+            Password: <code className="font-mono text-gray-900 bg-gray-100 px-1.5 py-0.5 rounded font-bold">kamal@123</code>
           </p>
         </div>
 

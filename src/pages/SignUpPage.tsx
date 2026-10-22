@@ -69,7 +69,7 @@ export const SignUpPage: React.FC = () => {
               <input
                 type="text"
                 required
-                placeholder="Ankit Kumar"
+                placeholder="Rahul Sharma"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
@@ -103,7 +103,7 @@ export const SignUpPage: React.FC = () => {
               <input
                 type="email"
                 required
-                placeholder="ankit@example.com"
+                placeholder="customer@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"

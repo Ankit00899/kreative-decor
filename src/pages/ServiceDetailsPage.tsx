@@ -134,7 +134,7 @@ export const ServiceDetailsPage: React.FC = () => {
       });
 
       const waMsg = `🎉 *NEW EVENT DECORATION BOOKING* 🎉
-*Ankit Event Decor (Ankit Kumar)*
+*Kreative Decor (Kamal Kumar)*
 -----------------------------------
 📋 *Service Setup:* ${service.title}
 👤 *Customer Name:* ${customerName.trim()}
@@ -147,7 +147,7 @@ ${customerEmail.trim() ? `✉️ *Email:* ${customerEmail.trim()}\n` : ''}🗓�
 🎨 *Color Theme:* ${selectedPalette}
 ${customFoilText.trim() ? `🎈 *Name/Age on Balloons:* ${customFoilText.trim()}\n` : ''}${selectedAddons.length > 0 ? `✨ *Add-on Elements:* ${selectedAddons.map(a => a.name).join(', ')}\n` : ''}${additionalRequirements.trim() ? `📝 *Special Instructions:* ${additionalRequirements.trim()}\n` : ''}🔖 *Booking Reference:* ${newBooking.referenceNumber}
 -----------------------------------
-Hi Ankit, please check date availability and send quotation & confirmation on WhatsApp!`;
+Hi Kamal Kumar, please check date availability and send quotation & confirmation on WhatsApp!`;
 
       const waLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMsg)}`;
       setWhatsappUrl(waLink);
@@ -382,7 +382,7 @@ Hi Ankit, please check date availability and send quotation & confirmation on Wh
           <div className="p-5 bg-[#FFFCFA] rounded-2xl border border-[#F8E7EC] space-y-3">
             <div className="flex items-center justify-between text-xs">
               <span className="text-gray-600 font-medium">Bespoke Setup & Coordination:</span>
-              <span className="font-bold text-[#701F3D]">Direct by Ankit Kumar</span>
+              <span className="font-bold text-[#701F3D]">Direct by Kamal Kumar</span>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-2">
@@ -444,7 +444,7 @@ Hi Ankit, please check date availability and send quotation & confirmation on Wh
               <div className="bg-amber-50 border border-amber-200 text-amber-800 p-3 rounded-xl text-xs max-w-md mx-auto flex items-start gap-2 text-left">
                 <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <span>
-                  <strong>WhatsApp Connect:</strong> Click the button below to message Ankit Kumar directly and confirm slot availability and your custom decor quotation!
+                  <strong>WhatsApp Connect:</strong> Click the button below to message Kamal Kumar directly and confirm slot availability and your custom decor quotation!
                 </span>
               </div>
 
@@ -497,7 +497,7 @@ Hi Ankit, please check date availability and send quotation & confirmation on Wh
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Ankit Kumar"
+                    placeholder="e.g. Rahul Sharma"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
@@ -511,7 +511,7 @@ Hi Ankit, please check date availability and send quotation & confirmation on Wh
                   <input
                     type="tel"
                     required
-                    placeholder="e.g. +91 96502 46245"
+                    placeholder="e.g. +91 98788 95539"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
@@ -524,7 +524,7 @@ Hi Ankit, please check date availability and send quotation & confirmation on Wh
                   </label>
                   <input
                     type="email"
-                    placeholder="e.g. ankit@example.com"
+                    placeholder="e.g. customer@example.com"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
@@ -651,7 +651,7 @@ Hi Ankit, please check date availability and send quotation & confirmation on Wh
                 <div>
                   <span className="text-[10px] text-gray-500 uppercase font-semibold">Fast Coordination</span>
                   <p className="font-serif text-lg font-bold text-[#701F3D]">
-                    Direct with Ankit Kumar
+                    Direct with Kamal Kumar
                   </p>
                 </div>
 

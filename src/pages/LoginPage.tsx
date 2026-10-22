@@ -165,7 +165,7 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. ankit@example.com or 9876543210"
+                  placeholder="e.g. customer@example.com or 9878895539"
                   value={loginIdentifier}
                   onChange={(e) => setLoginIdentifier(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
@@ -219,7 +219,7 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Ankit Kumar"
+                  placeholder="e.g. Rahul Sharma"
                   value={signupName}
                   onChange={(e) => setSignupName(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
@@ -236,7 +236,7 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="tel"
                   required
-                  placeholder="e.g. +91 96502 46245"
+                  placeholder="e.g. +91 98788 95539"
                   value={signupPhone}
                   onChange={(e) => setSignupPhone(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
@@ -253,7 +253,7 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="email"
                   required
-                  placeholder="e.g. ankit@example.com"
+                  placeholder="e.g. customer@example.com"
                   value={signupEmail}
                   onChange={(e) => setSignupEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"

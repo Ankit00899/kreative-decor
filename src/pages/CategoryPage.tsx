@@ -76,7 +76,7 @@ export const CategoryPage: React.FC = () => {
           </h1>
 
           <p className="text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
-            {categoryDesc} Every package includes styling supervision by Ankit Kumar and our expert team.
+            {categoryDesc} Every package includes styling supervision by Kamal Kumar and our expert team.
           </p>
 
           <p className="text-xs text-[#D6B36A] font-medium pt-2">

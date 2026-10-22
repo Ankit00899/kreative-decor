@@ -255,7 +255,7 @@ export const AdminBookingsPage: React.FC = () => {
                   <div className="pt-1 flex gap-2">
                     <a
                       href={`https://wa.me/${selectedBooking.customerPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                        `Hi ${selectedBooking.customerName}, this is Ankit Kumar regarding your booking #${selectedBooking.referenceNumber}.`
+                        `Hi ${selectedBooking.customerName}, this is Kamal Kumar from Kreative Decor regarding your booking #${selectedBooking.referenceNumber}.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

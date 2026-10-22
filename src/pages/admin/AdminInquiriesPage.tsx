@@ -167,7 +167,7 @@ export const AdminInquiriesPage: React.FC = () => {
                 <div className="flex items-center gap-1.5">
                   <a
                     href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                      `Hi ${inq.customerName}, this is Ankit Kumar regarding your inquiry for ${inq.eventCategory}.`
+                      `Hi ${inq.customerName}, this is Kamal Kumar from Kreative Decor regarding your inquiry for ${inq.eventCategory}.`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"

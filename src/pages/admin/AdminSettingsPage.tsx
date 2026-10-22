@@ -43,7 +43,7 @@ export const AdminSettingsPage: React.FC = () => {
   >('business');
 
   // Business info state
-  const [ownerName, setOwnerName] = useState(settings.ownerName || 'Ankit Kumar');
+  const [ownerName, setOwnerName] = useState(settings.ownerName || 'Kamal Kumar');
   const [businessName, setBusinessName] = useState(settings.businessName || 'Kreative Decor');
   const [contactEmail, setContactEmail] = useState(settings.contactEmail || 'kreativedecor.events@gmail.com');
   const [phoneNumber, setPhoneNumber] = useState(settings.phoneNumber || '+91 98788 95539');
@@ -88,7 +88,7 @@ export const AdminSettingsPage: React.FC = () => {
   );
   const [aboutStory, setAboutStory] = useState(
     settings.aboutStory ||
-      'Founded by Ankit Kumar, Ankit Event Decor was born from a passion to turn ordinary spaces into magical celebration realms. With over 7 years of hands-on experience across Delhi NCR and Lucknow, our dedicated styling artisans bring creative dreams to reality.'
+      'Founded by Kamal Kumar, Kreative Decor was born from a passion to turn ordinary spaces into magical celebration realms. Serving Sector 7, Sector 51, Sector 12, Noida, and across Delhi NCR, our dedicated styling artisans bring creative dreams to reality.'
   );
   const [aboutFounderImage, setAboutFounderImage] = useState(
     settings.aboutFounderImage ||
@@ -180,7 +180,7 @@ export const AdminSettingsPage: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ankit-event-decor-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `kreative-decor-backup-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -202,7 +202,7 @@ export const AdminSettingsPage: React.FC = () => {
             { id: 'hero', label: '2. Homepage Banner & Hero', icon: Sparkles },
             { id: 'payment', label: '3. Payment & UPI QR', icon: QrCode },
             { id: 'announcement', label: '4. Offers & Coupons', icon: Megaphone },
-            { id: 'about', label: '5. About Ankit & Story', icon: User },
+            { id: 'about', label: '5. About Kamal & Story', icon: User },
             { id: 'backup', label: '6. Backup & Restore', icon: Download },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -475,7 +475,7 @@ export const AdminSettingsPage: React.FC = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block font-semibold text-gray-800 mb-1">
-                    UPI ID (e.g. 9650246245@paytm / ankit@okaxis)
+                    UPI ID (e.g. 9878895539@paytm / 9878895539@okaxis)
                   </label>
                   <input
                     type="text"
@@ -696,14 +696,14 @@ export const AdminSettingsPage: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 5: About Ankit & Story */}
+        {/* Tab 5: About Kamal & Story */}
         {activeTab === 'about' && (
           <form onSubmit={handleSaveAll} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-xs space-y-6">
             <div className="border-b border-gray-100 pb-3 flex items-center justify-between">
               <div>
                 <h3 className="font-serif text-xl font-bold text-[#29252A] flex items-center gap-2">
                   <User className="w-5 h-5 text-[#D6B36A]" />
-                  <span>About Ankit Kumar & Brand Story</span>
+                  <span>About Kamal Kumar & Brand Story</span>
                 </h3>
                 <p className="text-xs text-gray-500">
                   Update the About Us page, founder profile photo, and milestone numbers.
@@ -776,11 +776,11 @@ export const AdminSettingsPage: React.FC = () => {
               {/* Founder Photo */}
               <div>
                 <ImageUploadField
-                  label="Founder Photo (Ankit Kumar)"
+                  label="Founder Photo (Kamal Kumar)"
                   aspectRatio="square"
                   value={aboutFounderImage}
                   onChange={(url) => setAboutFounderImage(url)}
-                  helperText="Upload Ankit's portrait photo for the About page."
+                  helperText="Upload Kamal Kumar's portrait photo for the About page."
                 />
               </div>
             </div>

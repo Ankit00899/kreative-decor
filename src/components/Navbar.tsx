@@ -64,6 +64,7 @@ export const Navbar: React.FC = () => {
     { label: 'Birthday Decor', path: '/category/birthday' },
     { label: 'Anniversary Decor', path: '/category/anniversary' },
     { label: 'Wedding Stage', path: '/category/wedding' },
+    { label: 'Haldi & Mehendi Decor', path: '/category/haldi' },
     { label: 'Romantic Room', path: '/category/romantic' },
     { label: 'Balloon Decor', path: '/category/balloon' },
     { label: 'Baby Shower', path: '/category/baby-shower' },
@@ -130,7 +131,7 @@ export const Navbar: React.FC = () => {
                 {settings.businessName || 'Kreative Decor'}
               </span>
               <span className="text-[9px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest text-[#B9944A] font-semibold block truncate">
-                Sector 7, Sector 51, Sector 12 • Noida
+                Founded by Kamal Kumar • Sector 7, 51, 12 Noida
               </span>
             </div>
           </Link>
@@ -228,14 +229,14 @@ export const Navbar: React.FC = () => {
             </Link>
 
             <Link
-              to="/category/baby-shower"
+              to="/category/haldi"
               className={`px-3 py-2 rounded-lg transition-colors ${
-                location.pathname === '/category/baby-shower'
+                location.pathname === '/category/haldi'
                   ? 'text-[#701F3D] font-semibold bg-[#F8E7EC]/60'
                   : 'hover:text-[#701F3D]'
               }`}
             >
-              Baby Shower
+              Haldi Decor
             </Link>
 
             <Link
@@ -313,84 +314,27 @@ export const Navbar: React.FC = () => {
               <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
             </a>
 
-            {/* User Dropdown / Login (Compact on mobile) */}
-            <div className="relative">
-              {currentUser ? (
-                <div>
-                  <button
-                    onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                    className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 bg-[#F8E7EC]/70 hover:bg-[#F8E7EC] text-[#701F3D] rounded-full text-xs font-semibold border border-[#701F3D]/20 transition-all cursor-pointer"
-                    title={currentUser.name}
-                  >
-                    <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#701F3D]" />
-                    <span className="max-w-[90px] truncate">{currentUser.name.split(' ')[0]}</span>
-                    <ChevronDown className="w-3 h-3 text-[#701F3D]" />
-                  </button>
+            {/* Call Now Quick CTA (Replaces user login at public level) */}
+            <a
+              href={`tel:${settings.phoneNumber.replace(/[^0-9]/g, '')}`}
+              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F8E7EC] hover:bg-[#701F3D] text-[#701F3D] hover:text-white text-xs font-semibold border border-[#701F3D]/20 transition-all shadow-xs"
+              title={`Call ${settings.phoneNumber}`}
+            >
+              <Phone className="w-3.5 h-3.5" />
+              <span>Call Us</span>
+            </a>
 
-                  {userDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-[#F8E7EC] py-2 z-50 animate-in fade-in zoom-in-95 duration-100">
-                      <div className="px-4 py-2 border-b border-[#F8E7EC]">
-                        <p className="text-xs text-gray-500">Signed in as</p>
-                        <p className="text-sm font-semibold text-[#701F3D] truncate">{currentUser.email || currentUser.phone}</p>
-                      </div>
-                      <Link
-                        to="/profile"
-                        onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-[#29252A] hover:bg-[#F8E7EC]/50"
-                      >
-                        <User className="w-4 h-4 text-[#701F3D]" />
-                        <span>My Profile</span>
-                      </Link>
-                      <Link
-                        to="/my-bookings"
-                        onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-[#29252A] hover:bg-[#F8E7EC]/50"
-                      >
-                        <Calendar className="w-4 h-4 text-[#701F3D]" />
-                        <span>My Bookings</span>
-                      </Link>
-                      <Link
-                        to="/profile?tab=wishlist"
-                        onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-[#29252A] hover:bg-[#F8E7EC]/50"
-                      >
-                        <Heart className="w-4 h-4 text-[#701F3D]" />
-                        <span>My Wishlist ({wishlist.length})</span>
-                      </Link>
-                      <div className="border-t border-[#F8E7EC] mt-1 pt-1">
-                        <button
-                          onClick={() => {
-                            logoutUser();
-                            setUserDropdownOpen(false);
-                          }}
-                          className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
-                        >
-                          <LogOut className="w-4 h-4" />
-                          <span>Logout</span>
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="flex items-center gap-1">
-                  <Link
-                    to="/login"
-                    className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-[#701F3D] bg-[#F8E7EC] hover:bg-[#701F3D] hover:text-[#FFFCFA] rounded-full transition-all border border-[#701F3D]/20 shadow-xs"
-                    title="Customer Login / Sign Up"
-                  >
-                    <User className="w-3.5 h-3.5" />
-                    <span>Login</span>
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:text-[#701F3D] hover:bg-[#F8E7EC]/50 rounded-full transition-all"
-                  >
-                    <span>Sign Up</span>
-                  </Link>
-                </div>
-              )}
-            </div>
+            {/* Admin Dashboard Quick Link (Discreetly visible only if admin authenticated) */}
+            {isAdminLoggedIn && (
+              <Link
+                to="/admin/dashboard"
+                className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 bg-amber-500/20 text-[#701F3D] border border-amber-500/40 rounded-full text-xs font-bold"
+                title="Admin Control Panel"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-[#701F3D]" />
+                <span>Admin</span>
+              </Link>
+            )}
 
             {/* Book Now Primary Button (Desktop/Tablet) */}
             <Link
@@ -474,11 +418,11 @@ export const Navbar: React.FC = () => {
               Wedding Stage
             </Link>
             <Link
-              to="/category/romantic"
+              to="/category/haldi"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2.5 rounded-lg hover:bg-[#F8E7EC] bg-gray-50 text-gray-800"
+              className="px-3 py-2.5 rounded-lg hover:bg-[#F8E7EC] bg-amber-50 text-amber-900 font-semibold"
             >
-              Romantic Room
+              Haldi & Mehendi
             </Link>
             <Link
               to="/gallery"

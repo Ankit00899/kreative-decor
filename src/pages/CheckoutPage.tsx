@@ -76,7 +76,7 @@ export const CheckoutPage: React.FC = () => {
 
       const itemsSummary = cart.map((c, i) => `${i + 1}. ${c.title}`).join('\n');
       const waMsg = `🎉 *NEW EVENT DECORATION BOOKING* 🎉
-*Ankit Event Decor (Ankit Kumar)*
+*Kreative Decor (Kamal Kumar)*
 -----------------------------------
 📋 *Selected Setup(s):*
 ${itemsSummary}
@@ -90,7 +90,7 @@ ${customerEmail.trim() ? `✉️ *Email:* ${customerEmail.trim()}\n` : ''}🗓�
 🏢 *Full Address:* ${deliveryAddress.trim()}
 ${notes.trim() ? `📝 *Special Requests:* ${notes.trim()}\n` : ''}🔖 *Booking Reference:* ${newBooking.referenceNumber}
 -----------------------------------
-Hi Ankit, please review my booking details and confirm quotation & availability on WhatsApp!`;
+Hi Kamal Kumar, please review my booking details and confirm quotation & availability on WhatsApp!`;
 
       const waLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMsg)}`;
       setWhatsappUrl(waLink);
@@ -132,7 +132,7 @@ Hi Ankit, please review my booking details and confirm quotation & availability 
           </div>
 
           <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto">
-            Your decoration details have been forwarded to Ankit Kumar on WhatsApp for schedule confirmation and quotation.
+            Your decoration details have been forwarded to Kamal Kumar on WhatsApp for schedule confirmation and quotation.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -180,7 +180,7 @@ Hi Ankit, please review my booking details and confirm quotation & availability 
                     required
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    placeholder="e.g. Ankit Kumar"
+                    placeholder="e.g. Rahul Sharma"
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
                   />
                 </div>
@@ -194,7 +194,7 @@ Hi Ankit, please review my booking details and confirm quotation & availability 
                     required
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
-                    placeholder="e.g. +91 96502 46245"
+                    placeholder="e.g. +91 98788 95539"
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
                   />
                 </div>
@@ -207,7 +207,7 @@ Hi Ankit, please review my booking details and confirm quotation & availability 
                     type="email"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
-                    placeholder="ankit@example.com"
+                    placeholder="customer@example.com"
                     className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
                   />
                 </div>
@@ -323,7 +323,7 @@ Hi Ankit, please review my booking details and confirm quotation & availability 
               </div>
 
               <div className="border-t border-[#F8E7EC] pt-3 text-xs text-gray-600 space-y-2">
-                <p>• Fast confirmation via WhatsApp with Ankit Kumar</p>
+                <p>• Fast confirmation via WhatsApp with Kamal Kumar</p>
                 <p>• Zero upfront payment needed</p>
               </div>
 

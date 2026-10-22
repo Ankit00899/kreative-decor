@@ -112,7 +112,7 @@ export const AboutPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
             <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
-              The Ankit Decor Standard
+              The Kreative Decor Standard • Founded by Kamal Kumar
             </span>
             <h2 className="font-serif text-3xl font-bold text-[#29252A]">
               Why Families & Planners Trust Us
@@ -182,7 +182,7 @@ export const AboutPage: React.FC = () => {
       {/* Demo Content Disclosure Notice */}
       <div className="max-w-4xl mx-auto px-4 text-center">
         <p className="text-[11px] text-gray-400 border border-gray-200 rounded-xl p-3 bg-gray-50">
-          <strong>Note:</strong> Customer testimonials and ratings shown on this website reflect sample demo experiences. For live portfolios, contact founder Ankit Kumar at {settings.phoneNumber}.
+          <strong>Note:</strong> Customer testimonials and ratings shown on this website reflect sample demo experiences. For live portfolios, contact founder Kamal Kumar at {settings.phoneNumber}.
         </p>
       </div>
     </div>

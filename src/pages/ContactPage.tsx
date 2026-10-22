@@ -107,14 +107,14 @@ Hi Kreative Decor, please let me know availability and quotation on WhatsApp!`;
           <div className="bg-[#29252A] text-white p-6 sm:p-8 rounded-3xl space-y-6 shadow-xl border-2 border-[#D6B36A]">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#701F3D] to-[#8A264B] flex items-center justify-center text-[#D6B36A] font-serif font-bold text-2xl border border-[#D6B36A]">
-                A
+                K
               </div>
               <div>
                 <span className="text-[10px] text-[#D6B36A] uppercase font-bold tracking-widest block">
                   Business Owner & Principal Stylist
                 </span>
                 <h3 className="font-serif text-2xl font-bold">{settings.ownerName}</h3>
-                <p className="text-xs text-gray-300">Ankit Event Decor Management</p>
+                <p className="text-xs text-gray-300">Kreative Decor Management • Founded by Kamal Kumar</p>
               </div>
             </div>
 
@@ -127,7 +127,7 @@ Hi Kreative Decor, please let me know availability and quotation on WhatsApp!`;
               {/* WhatsApp Button */}
               <a
                 href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
-                  'Hello Ankit, I would like to inquire about event decoration services.'
+                  'Hello Kamal Kumar, I would like to inquire about event decoration services.'
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -149,7 +149,7 @@ Hi Kreative Decor, please let me know availability and quotation on WhatsApp!`;
               {/* Email Us Button */}
               <a
                 href={`mailto:${settings.contactEmail}?subject=${encodeURIComponent(
-                  'Event Decoration Inquiry - Ankit Event Decor'
+                  'Event Decoration Inquiry - Kreative Decor'
                 )}`}
                 className="w-full py-3.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all flex items-center justify-center gap-2"
               >
@@ -201,7 +201,7 @@ Hi Kreative Decor, please let me know availability and quotation on WhatsApp!`;
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-[#701F3D]">
-                Inquiry Received by Ankit Kumar!
+                Inquiry Received by Kamal Kumar!
               </h3>
               <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto">
                 Thank you for contacting us, <strong>{submittedInquiry.customerName}</strong>. Your inquiry reference is:
@@ -210,7 +210,7 @@ Hi Kreative Decor, please let me know availability and quotation on WhatsApp!`;
                 {submittedInquiry.referenceNumber}
               </div>
               <p className="text-xs text-gray-500">
-                This has been logged in our Admin Dashboard. Ankit Kumar will review and contact you on <strong>{submittedInquiry.phone}</strong> shortly.
+                This has been logged in our Admin Dashboard. Kamal Kumar will review and contact you on <strong>{submittedInquiry.phone}</strong> shortly.
               </p>
               <div className="pt-4 flex flex-wrap justify-center gap-3">
                 <a

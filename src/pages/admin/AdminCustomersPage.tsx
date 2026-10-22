@@ -116,7 +116,7 @@ export const AdminCustomersPage: React.FC = () => {
                       <div className="flex items-center justify-end gap-1.5">
                         <a
                           href={`https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                            `Hello ${c.name}, this is Ankit Kumar from Ankit Event Decor.`
+                            `Hello ${c.name}, this is Kamal Kumar from Kreative Decor.`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

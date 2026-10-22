@@ -172,7 +172,7 @@ Hi Kreative Decor, please check date availability and send quotation & setup con
             {service ? service.title : 'Book Event Decoration'}
           </h2>
           <p className="text-xs text-white/80 mt-1">
-            Fill in your event details below. We will send the full booking directly to Ankit on WhatsApp!
+            Fill in your event details below. We will send the full booking directly to Kamal Kumar on WhatsApp!
           </p>
         </div>
 
@@ -190,7 +190,7 @@ Hi Kreative Decor, please check date availability and send quotation & setup con
                   Booking Saved & Ready to Send!
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto">
-                  Thank you, <strong className="text-gray-900">{createdBooking.customerName}</strong>. Your event details have been organized. Click the button below to send it directly to Ankit Kumar on WhatsApp.
+                  Thank you, <strong className="text-gray-900">{createdBooking.customerName}</strong>. Your event details have been organized. Click the button below to send it directly to Kamal Kumar on WhatsApp.
                 </p>
               </div>
 
@@ -503,10 +503,10 @@ Hi Kreative Decor, please check date availability and send quotation & setup con
               <div className="bg-[#FFFCFA] border border-[#F8E7EC] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="text-center sm:text-left">
                   <span className="text-xs font-bold text-[#701F3D] block">
-                    Fast WhatsApp Booking with Ankit
+                    Fast WhatsApp Booking with Kamal Kumar
                   </span>
                   <span className="text-[11px] text-gray-500 block">
-                    No advance payment required now. Ankit Kumar will confirm details on WhatsApp.
+                    No advance payment required now. Kamal Kumar will confirm details on WhatsApp.
                   </span>
                 </div>
 

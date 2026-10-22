@@ -43,7 +43,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode; pageTitle: strin
             Access Restricted
           </h2>
           <p className="text-sm text-gray-600">
-            This administrative control panel is restricted to the business owner (Ankit Kumar) and authorized coordinators.
+            This administrative control panel is restricted to the business owner (Kamal Kumar) and authorized coordinators.
           </p>
           <div className="pt-2">
             <Link

@@ -255,20 +255,20 @@ export const MyBookingsPage: React.FC = () => {
                 <span className="text-xs text-gray-500">
                   {b.status === 'Pending'
                     ? 'Pending admin confirmation before lock-in.'
-                    : 'Confirmed and assigned to Ankit Decor setup crew.'}
+                    : 'Confirmed and assigned to Kreative Decor setup crew.'}
                 </span>
 
                 <div className="flex items-center gap-2">
                   <a
                     href={`https://wa.me/${settings.phoneNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                      `Hello Ankit, regarding my booking #${b.referenceNumber} (${b.serviceTitle}) for ${b.eventDate}: could you share the arrival timing?`
+                      `Hello Kamal Kumar, regarding my booking #${b.referenceNumber} (${b.serviceTitle}) for ${b.eventDate}: could you share the arrival timing?`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#20b857] text-white text-xs font-semibold shadow-xs"
                   >
                     <MessageCircle className="w-3.5 h-3.5" />
-                    <span>WhatsApp Ankit</span>
+                    <span>WhatsApp Kamal Kumar</span>
                   </a>
 
                   <a

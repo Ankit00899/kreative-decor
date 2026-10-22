@@ -128,6 +128,7 @@ export const ServicesPage: React.FC = () => {
     { id: 'birthday', label: 'Birthday' },
     { id: 'anniversary', label: 'Anniversary' },
     { id: 'wedding', label: 'Wedding Stage' },
+    { id: 'haldi', label: 'Haldi & Mehendi' },
     { id: 'romantic', label: 'Romantic Room' },
     { id: 'balloon', label: 'Balloon Arch' },
     { id: 'baby-shower', label: 'Baby Shower' },

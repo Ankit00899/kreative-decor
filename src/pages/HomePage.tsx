@@ -96,7 +96,7 @@ export const HomePage: React.FC = () => {
             <Sparkles className="w-4 h-4 text-[#D6B36A]" />
             <span>
               {settings.heroBadgeText ||
-                `Curated by ${settings.ownerName || 'Ankit Kumar'} • Delhi NCR & Lucknow`}
+                `Curated by ${settings.ownerName || 'Kamal Kumar'} • Sector 7, Sector 51, Sector 12, Noida`}
             </span>
           </div>
 
@@ -373,11 +373,11 @@ export const HomePage: React.FC = () => {
             </div>
 
             <h3 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
-              Plan Your Celebration with Ankit Kumar
+              Plan Your Celebration with Kamal Kumar
             </h3>
 
             <p className="text-sm text-white/80 leading-relaxed">
-              Planning a birthday, anniversary, or baby shower celebration? Share your required details directly on WhatsApp to get tailored styling suggestions and instant date confirmation.
+              Planning a birthday, anniversary, wedding, or haldi celebration? Share your required details directly on WhatsApp to get tailored styling suggestions and instant date confirmation.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-3">
@@ -397,7 +397,7 @@ export const HomePage: React.FC = () => {
                 className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-all flex items-center gap-2"
               >
                 <Phone className="w-3.5 h-3.5 text-[#D6B36A]" />
-                <span>Call Ankit: {settings.phoneNumber}</span>
+                <span>Call Kamal Kumar: {settings.phoneNumber}</span>
               </a>
             </div>
           </div>
@@ -481,7 +481,7 @@ export const HomePage: React.FC = () => {
               </div>
               <h3 className="font-serif text-lg font-bold text-[#29252A]">Submit Booking</h3>
               <p className="text-xs text-gray-600 leading-relaxed">
-                Receive instant reference ID. Founder Ankit Kumar contacts you to lock timings.
+                Receive instant reference ID. Founder Kamal Kumar contacts you to lock timings.
               </p>
             </div>
 
@@ -602,7 +602,7 @@ export const HomePage: React.FC = () => {
               What Our Happy Clients Say
             </h2>
             <p className="text-sm text-gray-600">
-              Verified feedback from families and couples who trusted Ankit Event Decor.
+              Verified feedback from families and couples who trusted Kreative Decor.
             </p>
           </div>
 
@@ -668,7 +668,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 10. Direct Connect Callout for Ankit Kumar */}
+      {/* 10. Direct Connect Callout for Kamal Kumar */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-[#29252A] text-white rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border-2 border-[#D6B36A]">
           <div className="space-y-3 text-center md:text-left">
@@ -676,24 +676,24 @@ export const HomePage: React.FC = () => {
               Have a Custom Request or Date in Mind?
             </span>
             <h3 className="font-serif text-2xl sm:text-3xl font-bold">
-              Speak Directly with Ankit Kumar
+              Speak Directly with Kamal Kumar
             </h3>
             <p className="text-xs sm:text-sm text-gray-300 max-w-xl">
-              Get an instant quote, check availability, or discuss custom color themes for your wedding, birthday, or anniversary.
+              Get an instant quote, check availability, or discuss custom color themes for your birthday, anniversary, wedding, or haldi decor.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
             <a
               href={`https://wa.me/${settings.phoneNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                'Hi Ankit, I would like to discuss a customized event decoration package.'
+                'Hi Kamal Kumar, I would like to discuss a customized event decoration package.'
               )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20b857] text-white text-xs font-bold shadow-md transition-all flex items-center gap-2"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp Ankit</span>
+              <span>WhatsApp Kamal Kumar</span>
             </a>
 
             <a
