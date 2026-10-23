@@ -1,81 +1,114 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   Sparkles,
-  Calendar,
-  Heart,
-  Star,
-  CheckCircle2,
-  ArrowRight,
-  ShieldCheck,
-  Clock,
-  Palette,
   Phone,
   MessageCircle,
-  HelpCircle,
-  Award,
+  Star,
+  CheckCircle2,
+  Clock,
+  ShieldCheck,
   ChevronRight,
-  Copy,
-  Check,
+  MapPin,
+  Send,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { CATEGORIES_LIST, TESTIMONIALS, FAQS } from '../data/initialData';
+import { TESTIMONIALS, FAQS } from '../data/initialData';
 import { ServiceCard } from '../components/ServiceCard';
 import { BookingModal } from '../components/BookingModal';
-import { LightboxModal } from '../components/LightboxModal';
 import { ServiceItem } from '../types';
 
 export const HomePage: React.FC = () => {
-  const { services, gallery, settings, formatPrice } = useApp();
+  const { services, settings, addInquiry } = useApp();
+  const location = useLocation();
+
   const [selectedServiceForBooking, setSelectedServiceForBooking] = useState<ServiceItem | null>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-  // Lightbox
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
+  // Quick Inquiry Form State
+  const [inquiryName, setInquiryName] = useState('');
+  const [inquiryPhone, setInquiryPhone] = useState('');
+  const [inquiryCategory, setInquiryCategory] = useState('Birthday Decoration');
+  const [inquiryDate, setInquiryDate] = useState('');
+  const [inquiryMessage, setInquiryMessage] = useState('');
+  const [inquirySuccess, setInquirySuccess] = useState(false);
 
-  // Copied code feedback
-  const [copiedCode, setCopiedCode] = useState(false);
-  const [homeGalleryTab, setHomeGalleryTab] = useState<'all' | 'wedding' | 'baby-shower' | 'anniversary' | 'balloon' | 'birthday'>('all');
-
-  const bestSellers = services.filter((s) => s.isBestSeller && s.isPublished);
-  const trendingServices = services.filter((s) => s.isTrending && s.isPublished);
-  const anniversaryServices = services.filter((s) => s.category === 'anniversary' && s.isPublished);
-  const balloonServices = services.filter((s) => s.category === 'balloon' && s.isPublished);
-  const babyShowerServices = services.filter((s) => s.category === 'baby-shower' && s.isPublished);
-  const weddingServices = services.filter((s) => s.category === 'wedding' && s.isPublished);
-
-  const displayedHomeGallery = React.useMemo(() => {
-    if (homeGalleryTab === 'all') {
-      const wed = gallery.filter((g) => g.category === 'wedding');
-      const baby = gallery.filter((g) => g.category === 'baby-shower');
-      const anniv = gallery.filter((g) => g.category === 'anniversary');
-      const balloon = gallery.filter((g) => g.category === 'balloon');
-      return [
-        ...wed.slice(0, 2),
-        ...baby.slice(0, 2),
-        ...anniv.slice(0, 2),
-        ...balloon.slice(0, 2),
-      ];
+  // Smooth-scroll when URL has hash
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+      }
     }
-    return gallery.filter((g) => g.category === homeGalleryTab);
-  }, [gallery, homeGalleryTab]);
+  }, [location]);
+
+  const cleanPhone = settings.whatsappNumber || settings.phoneNumber.replace(/[^0-9]/g, '') || '919878895539';
 
   const openBookingWithService = (service: ServiceItem) => {
     setSelectedServiceForBooking(service);
     setIsBookingModalOpen(true);
   };
 
-  const handleCopyCoupon = (code: string) => {
-    navigator.clipboard.writeText(code);
-    setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 3000);
+  const handleInquirySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inquiryName.trim() || !inquiryPhone.trim()) return;
+
+    addInquiry({
+      customerName: inquiryName.trim(),
+      phone: inquiryPhone.trim(),
+      email: '',
+      eventCategory: inquiryCategory,
+      eventDate: inquiryDate,
+      estimatedBudget: 'Custom',
+      message: inquiryMessage.trim() || 'Inquired via Homepage quick form.',
+    });
+
+    const waMsg = `🎉 *NEW EVENT DECORATION INQUIRY* 🎉
+*Kreative Decor (Founded by Kamal Kumar)*
+-----------------------------------
+👤 *Name:* ${inquiryName.trim()}
+📱 *WhatsApp:* ${inquiryPhone.trim()}
+🎈 *Occasion:* ${inquiryCategory}
+${inquiryDate ? `🗓️ *Date:* ${inquiryDate}\n` : ''}📝 *Requirements:* ${inquiryMessage.trim() || 'Please share package details and pricing'}
+-----------------------------------
+Hi Kamal Kumar, please share availability and quotation on WhatsApp!`;
+
+    setInquirySuccess(true);
+    const waLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMsg)}`;
+    window.open(waLink, '_blank');
   };
+
+  // Group exactly 4 items per dedicated section as requested in the audio
+  const birthdayServices = services.filter((s) => s.category === 'birthday' && s.isPublished).slice(0, 4);
+  const anniversaryServices = services.filter((s) => s.category === 'anniversary' && s.isPublished).slice(0, 4);
+  const babyShowerServices = services.filter(
+    (s) => s.category === 'baby-shower' && !s.title.toLowerCase().includes('welcome home') && s.isPublished
+  ).slice(0, 4);
+  const babyWelcomeServices = services.filter(
+    (s) => (s.title.toLowerCase().includes('welcome') || s.slug.includes('welcome')) && s.isPublished
+  ).slice(0, 4);
+  const romanticServices = services.filter(
+    (s) => (s.category === 'romantic' || s.title.toLowerCase().includes('rose petal') || s.title.toLowerCase().includes('canopy')) && s.isPublished
+  ).slice(0, 4);
+  const haldiServices = services.filter((s) => s.category === 'haldi' && s.isPublished).slice(0, 4);
+
+  const categoriesOverview = [
+    { id: 'birthday', label: 'Birthday Decoration', icon: '🎈', image: '/birthday/birthday15.jpeg', desc: 'Ring arches, neon boards & shimmer walls' },
+    { id: 'anniversary', label: 'Anniversary Decoration', icon: '💖', image: '/anniversary/anniversary1.jpeg', desc: 'Sunset cabanas, golden jubilee & floral rings' },
+    { id: 'baby-shower', label: 'Baby Shower', icon: '🍼', image: '/babyshower/baby_24x7_wb4.jpeg', desc: 'Hot air balloon clouds & 3D marquee blocks' },
+    { id: 'baby-welcome', label: 'Baby Welcome', icon: '👶', image: '/babyshower/baby_24x7_14.png', desc: 'Cradle flower styling & welcome home balloons' },
+    { id: 'just-married', label: 'Just Married & Room', icon: '🌹', image: '/anniversary/b64_1.jpg', desc: 'Rose petal hearts, candlelight & fairy canopies' },
+    { id: 'haldi-mehndi', label: 'Haldi & Mehndi', icon: '🌼', image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80', desc: 'Marigold tassels, royal brass urlis & chowki seating' },
+  ];
 
   return (
     <div className="space-y-16 lg:space-y-24 pb-16">
-      {/* 1. Hero Section */}
-      <section className="relative min-h-[580px] lg:min-h-[660px] flex items-center justify-center overflow-hidden bg-[#29252A]">
+      {/* 1. Hero Banner (#hero) */}
+      <section id="hero" className="relative min-h-[560px] lg:min-h-[640px] flex items-center justify-center overflow-hidden bg-[#29252A]">
         {/* Background image with cinematic gradient overlay */}
         <div className="absolute inset-0 z-0">
           <img
@@ -84,19 +117,18 @@ export const HomePage: React.FC = () => {
               'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=85'
             }
             alt="Luxury Event Decoration Setup"
-            className="w-full h-full object-cover opacity-35 scale-105 animate-pulse duration-[10000ms]"
+            className="w-full h-full object-cover opacity-35 scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#29252A] via-[#29252A]/80 to-transparent" />
-          <div className="absolute inset-0 bg-radial from-transparent via-[#701F3D]/20 to-[#29252A]" />
+          <div className="absolute inset-0 bg-radial from-transparent via-[#701F3D]/25 to-[#29252A]" />
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white py-16">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-12 pb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-[#D6B36A]/50 text-[#D6B36A] text-xs font-semibold mb-6 shadow-md">
             <Sparkles className="w-4 h-4 text-[#D6B36A]" />
             <span>
-              {settings.heroBadgeText ||
-                `Curated by ${settings.ownerName || 'Kamal Kumar'} • Sector 7, Sector 51, Sector 12, Gurgaon`}
+              Kreative Decor • Founded by Kamal Kumar • Gurgaon & Delhi NCR
             </span>
           </div>
 
@@ -104,495 +136,443 @@ export const HomePage: React.FC = () => {
             {settings.heroTitle || 'We Make Every Celebration Unforgettable.'}
           </h1>
 
-          <p className="mt-6 text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-light">
-            {settings.heroSubtitle ||
-              'From dreamy birthdays to romantic anniversaries, we transform your special moments into beautiful memories with bespoke balloon arches, fresh florals, and fairy lighting.'}
+          <p className="mt-5 text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-light">
+            From dreamy birthdays and romantic anniversaries to whimsical baby showers and auspicious haldi setups, our dedicated styling artisans turn your special occasions into magical memories.
           </p>
 
-          {/* Call to Actions */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/services"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#D6B36A] hover:bg-[#B9944A] text-[#29252A] font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+          {/* Quick CTA Action Bar */}
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <a
+              href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+                'Hi Kamal Kumar, I would like to inquire about decoration packages for an upcoming celebration.'
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20b857] text-white font-bold text-sm shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
             >
-              <span>Explore Decorations</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              <MessageCircle className="w-4 h-4 fill-current" />
+              <span>Book on WhatsApp</span>
+            </a>
+
+            <a
+              href={`tel:${cleanPhone}`}
+              className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm backdrop-blur-md border border-white/30 transition-all flex items-center justify-center gap-2"
+            >
+              <Phone className="w-4 h-4 text-[#D6B36A]" />
+              <span>Call: {settings.phoneNumber}</span>
+            </a>
 
             <button
               onClick={() => {
-                setSelectedServiceForBooking(null);
-                setIsBookingModalOpen(true);
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#701F3D] hover:bg-[#8A264B] text-white font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition-all border border-[#D6B36A]/40 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gradient-to-r from-[#701F3D] to-[#8A264B] text-white font-semibold text-sm border border-[#D6B36A]/50 shadow-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Calendar className="w-4 h-4 text-[#D6B36A]" />
-              <span>Book Your Event</span>
+              <Sparkles className="w-4 h-4 text-[#D6B36A]" />
+              <span>Get Free Quotation</span>
             </button>
           </div>
 
-          {/* Quick Metrics */}
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-8 border-t border-white/10 text-center">
+          {/* Trust Highlights */}
+          <div className="mt-12 pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto text-center">
             <div>
               <p className="font-serif text-2xl md:text-3xl font-bold text-[#D6B36A]">
-                {settings.completedEventsCount ? `${settings.completedEventsCount.toLocaleString('en-IN')}+` : '1,450+'}
+                {settings.experienceYears || 7}+ Years
+              </p>
+              <p className="text-[11px] text-gray-300 uppercase tracking-wider mt-0.5">Experience</p>
+            </div>
+            <div>
+              <p className="font-serif text-2xl md:text-3xl font-bold text-[#D6B36A]">
+                {settings.completedEventsCount || 1450}+
               </p>
               <p className="text-[11px] text-gray-300 uppercase tracking-wider mt-0.5">Events Styled</p>
             </div>
             <div>
               <p className="font-serif text-2xl md:text-3xl font-bold text-[#D6B36A]">
-                {settings.experienceYears ? `${settings.experienceYears}+ Yrs` : '7+ Yrs'}
+                100%
               </p>
-              <p className="text-[11px] text-gray-300 uppercase tracking-wider mt-0.5">Experience</p>
-            </div>
-            <div>
-              <p className="font-serif text-2xl md:text-3xl font-bold text-[#D6B36A]">100%</p>
               <p className="text-[11px] text-gray-300 uppercase tracking-wider mt-0.5">On-Time Setup</p>
             </div>
             <div>
               <p className="font-serif text-2xl md:text-3xl font-bold text-[#D6B36A]">
-                100%
+                Gurgaon
               </p>
-              <p className="text-[11px] text-gray-300 uppercase tracking-wider mt-0.5">Custom Themes</p>
+              <p className="text-[11px] text-gray-300 uppercase tracking-wider mt-0.5">& Delhi NCR</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Featured Categories Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
+      {/* 2. About Us Section (#about) */}
+      <section id="about" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="bg-gradient-to-br from-[#FFFCFA] to-[#F8E7EC]/30 rounded-3xl p-6 sm:p-12 border border-[#F8E7EC] shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
+            <div className="lg:col-span-7 space-y-4">
+              <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
+                About The Stylists
+              </span>
+
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A] leading-tight">
+                About Kreative Decor • Founded by Kamal Kumar
+              </h2>
+
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {settings.aboutStory ||
+                  'Founded by Kamal Kumar, Kreative Decor was born from a genuine passion to turn ordinary living spaces, hotel suites, banquet halls, and outdoor lawns into extraordinary celebratory realms. Serving Sector 7, Sector 51, Sector 12, Gurgaon, and across Delhi NCR, our dedicated styling artisans bring creative dreams to reality.'}
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="flex items-start gap-2.5 bg-white p-3.5 rounded-xl border border-[#F8E7EC]">
+                  <ShieldCheck className="w-5 h-5 text-[#701F3D] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs font-bold text-gray-900">Zero Wall & Paint Damage</p>
+                    <p className="text-[11px] text-gray-500">Only removable painter-grade tapes & specialized mounts used.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5 bg-white p-3.5 rounded-xl border border-[#F8E7EC]">
+                  <Clock className="w-5 h-5 text-[#701F3D] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs font-bold text-gray-900">Guaranteed On-Time Setup</p>
+                    <p className="text-[11px] text-gray-500">Decor ready 1 hour before your guests arrive.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 flex flex-wrap items-center gap-3">
+                <a
+                  href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+                    'Hi Kamal Kumar, I would like to know more about your decoration services in Gurgaon.'
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20b857] text-white text-xs font-bold shadow-sm transition-all flex items-center gap-2"
+                >
+                  <MessageCircle className="w-4 h-4 fill-current" />
+                  <span>Chat with Kamal Kumar</span>
+                </a>
+
+                <a
+                  href={`tel:${cleanPhone}`}
+                  className="px-5 py-2.5 rounded-xl bg-[#701F3D] hover:bg-[#8A264B] text-white text-xs font-bold shadow-sm transition-all flex items-center gap-2"
+                >
+                  <Phone className="w-4 h-4 text-[#D6B36A]" />
+                  <span>Call: {settings.phoneNumber}</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 relative">
+              <div className="aspect-4/3 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                <img
+                  src="/birthday/birthday15.jpeg"
+                  alt="Kreative Decor Signature Setup by Kamal Kumar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-4 -right-2 sm:-right-4 bg-[#701F3D] text-white p-4 rounded-2xl shadow-xl border border-[#D6B36A]/50 max-w-xs text-xs">
+                <p className="font-serif font-bold text-sm text-[#D6B36A]">Direct Owner Commitment</p>
+                <p className="text-gray-200 text-[11px] mt-0.5">Kamal Kumar personally oversees design curation and timeline commitments.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Services Categories Overview (#services) */}
+      <section id="services" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
           <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
-            Tailored For Every Milestone
+            Our Services
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A]">
-            Featured Event Categories
+            Celebration Categories & Themes
           </h2>
-          <p className="text-sm text-gray-600">
-            Browse our signature decoration collections tailored specifically for birthdays, anniversaries, intimate romantic setups, and grand weddings.
+          <p className="text-xs sm:text-sm text-gray-600">
+            Click on any service category to scroll down directly to its curated package setups.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {CATEGORIES_LIST.map((category) => (
-            <Link
-              key={category.id}
-              to={`/category/${category.slug}`}
-              className="group relative rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col bg-white border border-[#F8E7EC]"
-            >
-              <div className="aspect-4/3 w-full overflow-hidden bg-gray-100 relative">
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    if (!target.dataset.fallbackApplied) {
-                      target.dataset.fallbackApplied = 'true';
-                      if (category.slug === 'wedding') {
-                        target.src = '/wedding/wedding_mandap_stage.jpg';
-                      } else if (category.slug === 'baby-shower') {
-                        target.src = '/babyshower/baby_24x7_18.png';
-                      } else if (category.slug === 'anniversary') {
-                        target.src = '/anniversary/anniversary1.jpeg';
-                      } else if (category.slug === 'balloon') {
-                        target.src = '/balloon/balloon_restaurant_hall.jpg';
-                      } else {
-                        target.src = '/birthday/birthday15.jpeg';
-                      }
-                    }
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3 text-white">
-                  <span className="text-[10px] font-semibold text-[#D6B36A] uppercase tracking-wider block">
-                    Bespoke Decor
-                  </span>
-                  <h3 className="font-serif text-lg font-bold leading-tight group-hover:text-[#D6B36A] transition-colors">
-                    {category.name}
-                  </h3>
-                </div>
-              </div>
-              <div className="p-3 bg-white flex items-center justify-between text-xs text-gray-600">
-                <span className="truncate">{category.tagline}</span>
-                <ChevronRight className="w-4 h-4 text-[#701F3D] group-hover:translate-x-1 transition-transform shrink-0" />
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* 3. Best-Selling Decoration Packages */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-          <div>
-            <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
-              Customer Favorites
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A] mt-2">
-              Signature Decoration Packages
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Hand-picked packages styled and booked most frequently across Delhi NCR and Lucknow.
-            </p>
-          </div>
-
-          <Link
-            to="/services"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] hover:text-[#52132A] uppercase tracking-wider"
-          >
-            <span>View All Packages</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {bestSellers.slice(0, 3).map((service) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              onQuickBook={openBookingWithService}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 3B. Dedicated Romantic Anniversary & Milestone Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-          <div>
-            <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
-              Romantic Milestones & Celebrations
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A] mt-2">
-              Anniversary Decoration Collections
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              From intimate candlelit master suite surprises to 50th Golden Jubilee arches and beachfront fairy canopies.
-            </p>
-          </div>
-
-          <Link
-            to="/category/anniversary"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] hover:text-[#52132A] uppercase tracking-wider"
-          >
-            <span>View All {anniversaryServices.length} Anniversary Setups</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {anniversaryServices.slice(0, 6).map((service) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              onQuickBook={openBookingWithService}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 3C. Dedicated Baby Shower & Welcome Baby Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-          <div>
-            <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
-              Welcoming Your Little Miracle
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A] mt-2">
-              Baby Shower & Welcome Baby Decor
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Cute teddy bear on the moon, marquee letter blocks, royal mom-to-be sequin stages, and pastel cloud arches.
-            </p>
-          </div>
-
-          <Link
-            to="/category/baby-shower"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] hover:text-[#52132A] uppercase tracking-wider"
-          >
-            <span>View All {babyShowerServices.length} Baby Shower Packages</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {babyShowerServices.slice(0, 6).map((service) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              onQuickBook={openBookingWithService}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 3D. Dedicated Royal Wedding & Reception Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-          <div>
-            <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
-              Opulent Matrimonial Grandeur
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A] mt-2">
-              Wedding & Reception Stage Decor
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Royal mandap setups, enchanted fresh floral arches, ceremonial bridal walkways, and luxury banquet guest dining.
-            </p>
-          </div>
-
-          <Link
-            to="/category/wedding"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] hover:text-[#52132A] uppercase tracking-wider"
-          >
-            <span>View All {weddingServices.length} Wedding Setups</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {weddingServices.map((service) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              onQuickBook={openBookingWithService}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 4. Direct WhatsApp Booking Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#701F3D] via-[#52132A] to-[#29252A] text-white p-8 sm:p-12 shadow-2xl border border-[#D6B36A]/30">
-          <div className="relative z-10 max-w-2xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D6B36A] text-[#29252A] text-xs font-bold">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Direct WhatsApp Booking</span>
-            </div>
-
-            <h3 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
-              Plan Your Celebration with Kamal Kumar
-            </h3>
-
-            <p className="text-sm text-white/80 leading-relaxed">
-              Planning a birthday, anniversary, wedding, or haldi celebration? Share your required details directly on WhatsApp to get tailored styling suggestions and instant date confirmation.
-            </p>
-
-            <div className="pt-2 flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => {
-                  setSelectedServiceForBooking(null);
-                  setIsBookingModalOpen(true);
-                }}
-                className="px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20b857] text-white font-bold text-xs shadow-lg transition-all flex items-center gap-2 cursor-pointer"
-              >
-                <MessageCircle className="w-4 h-4 fill-current" />
-                <span>Book on WhatsApp Now</span>
-              </button>
-
-              <a
-                href={`tel:${settings.phoneNumber.replace(/[^0-9]/g, '')}`}
-                className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-all flex items-center gap-2"
-              >
-                <Phone className="w-3.5 h-3.5 text-[#D6B36A]" />
-                <span>Call Kamal Kumar: {settings.phoneNumber}</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Trending Decoration Services */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-          <div>
-            <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
-              Viral & Aesthetic
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A] mt-2">
-              Trending Celebrations
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Unique photo-worthy setups including romantic cabanas, floral arches, and milestone marquee numbers.
-            </p>
-          </div>
-
-          <Link
-            to="/services?sort=popularity"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] hover:text-[#52132A] uppercase tracking-wider"
-          >
-            <span>See Trending Setups</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {trendingServices.slice(0, 3).map((service) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              onQuickBook={openBookingWithService}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 6. How It Works Section */}
-      <section className="bg-[#F8E7EC]/40 py-16 border-y border-[#F8E7EC]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-            <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-white px-3 py-1 rounded-full shadow-xs">
-              Simple 4-Step Process
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A]">
-              How Booking Works
-            </h2>
-            <p className="text-sm text-gray-600">
-              We eliminate stress so you can simply arrive and immerse yourself in the celebration.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white rounded-2xl p-6 shadow-xs border border-[#F8E7EC] text-center space-y-3 relative">
-              <div className="w-12 h-12 rounded-full bg-[#701F3D] text-[#D6B36A] font-serif font-bold text-xl flex items-center justify-center mx-auto">
-                1
-              </div>
-              <h3 className="font-serif text-lg font-bold text-[#29252A]">Choose Theme</h3>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                Explore our catalog of balloon rings, rose canopies, baby showers, or custom themes.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 shadow-xs border border-[#F8E7EC] text-center space-y-3 relative">
-              <div className="w-12 h-12 rounded-full bg-[#701F3D] text-[#D6B36A] font-serif font-bold text-xl flex items-center justify-center mx-auto">
-                2
-              </div>
-              <h3 className="font-serif text-lg font-bold text-[#29252A]">Customize & Add-ons</h3>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                Pick your favorite color palette, personalized name foil, cakes, or marquee lighting.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 shadow-xs border border-[#F8E7EC] text-center space-y-3 relative">
-              <div className="w-12 h-12 rounded-full bg-[#701F3D] text-[#D6B36A] font-serif font-bold text-xl flex items-center justify-center mx-auto">
-                3
-              </div>
-              <h3 className="font-serif text-lg font-bold text-[#29252A]">Submit Booking</h3>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                Receive instant reference ID. Founder Kamal Kumar contacts you to lock timings.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 shadow-xs border border-[#F8E7EC] text-center space-y-3 relative">
-              <div className="w-12 h-12 rounded-full bg-[#701F3D] text-[#D6B36A] font-serif font-bold text-xl flex items-center justify-center mx-auto">
-                4
-              </div>
-              <h3 className="font-serif text-lg font-bold text-[#29252A]">Flawless Setup</h3>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                Our professional crew sets up on-site with clean equipment, leaving your venue spotless after.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Real Event Gallery Preview with Lightbox */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-          <div>
-            <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
-              Visual Portfolio
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A] mt-2">
-              Recent Event Setups
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Click on any photograph to view high-resolution details and location.
-            </p>
-          </div>
-
-          <Link
-            to="/gallery"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] hover:text-[#52132A] uppercase tracking-wider"
-          >
-            <span>Explore Full Gallery ({gallery.length})</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        {/* Category Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-2">
-          {[
-            { id: 'all', label: 'Featured Highlights' },
-            { id: 'wedding', label: `Wedding Stages (${gallery.filter((g) => g.category === 'wedding').length})` },
-            { id: 'baby-shower', label: `Baby Shower (${gallery.filter((g) => g.category === 'baby-shower').length})` },
-            { id: 'anniversary', label: `Anniversary Special (${gallery.filter((g) => g.category === 'anniversary').length})` },
-            { id: 'balloon', label: `Balloon Decor (${gallery.filter((g) => g.category === 'balloon').length})` },
-            { id: 'birthday', label: `Birthday Setups (${gallery.filter((g) => g.category === 'birthday').length})` },
-          ].map((tab) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {categoriesOverview.map((cat) => (
             <button
-              key={tab.id}
-              onClick={() => setHomeGalleryTab(tab.id as any)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 cursor-pointer ${
-                homeGalleryTab === tab.id
-                  ? 'bg-[#701F3D] text-white shadow-md'
-                  : 'bg-white text-gray-700 hover:bg-[#F8E7EC] border border-[#F8E7EC]'
-              }`}
+              key={cat.id}
+              onClick={() => {
+                const el = document.getElementById(cat.id);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="group rounded-2xl overflow-hidden bg-white border border-[#F8E7EC] shadow-xs hover:shadow-xl transition-all hover:-translate-y-1 text-left flex flex-col cursor-pointer"
             >
-              {tab.label}
+              <div className="aspect-square w-full overflow-hidden bg-gray-100 relative">
+                <img
+                  src={cat.image}
+                  alt={cat.label}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <span className="absolute top-2 left-2 text-xl">{cat.icon}</span>
+                <span className="absolute bottom-2 left-2 right-2 text-white font-serif font-bold text-xs sm:text-sm leading-tight group-hover:text-[#D6B36A] transition-colors">
+                  {cat.label}
+                </span>
+              </div>
+              <div className="p-2.5 bg-white flex items-center justify-between text-[11px] text-gray-500">
+                <span className="truncate">View Setups</span>
+                <ChevronRight className="w-3.5 h-3.5 text-[#701F3D] group-hover:translate-x-1 transition-transform shrink-0" />
+              </div>
             </button>
           ))}
         </div>
+      </section>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {displayedHomeGallery.map((item, index) => (
-            <div
-              key={item.id}
-              onClick={() => {
-                setLightboxIndex(index);
-                setLightboxOpen(true);
-              }}
-              className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-xs hover:shadow-xl transition-all"
-            >
-              <img
-                src={item.imageUrl}
-                alt={item.title}
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  if (!target.dataset.fallbackApplied) {
-                    target.dataset.fallbackApplied = 'true';
-                    if (item.category === 'wedding') {
-                      target.src = '/wedding/wedding_mandap_stage.jpg';
-                    } else if (item.category === 'baby-shower') {
-                      target.src = '/babyshower/baby_24x7_18.png';
-                    } else if (item.category === 'anniversary') {
-                      target.src = '/anniversary/anniversary1.jpeg';
-                    } else if (item.category === 'balloon') {
-                      target.src = '/balloon/balloon_restaurant_hall.jpg';
-                    } else {
-                      target.src = '/birthday15.jpeg';
-                    }
-                  }
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3 text-white">
-                <span className="text-[10px] text-[#D6B36A] font-semibold">{item.categoryLabel}</span>
-                <p className="text-xs font-bold font-serif line-clamp-1">{item.title}</p>
-                {item.eventLocation && (
-                  <p className="text-[10px] text-gray-300">{item.eventLocation}</p>
-                )}
-              </div>
+      {/* 4. Dedicated Section: Birthday Decoration (#birthday) - Exactly 4 cards */}
+      <section id="birthday" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-[#F8E7EC]">
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full mb-2">
+              <span>🎈 Service Category</span>
+              <span>•</span>
+              <span>Birthday Specials</span>
             </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A]">
+              Birthday Decoration Services
+            </h2>
+            <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+              Organic balloon arches, customized neon sign boards, pastel themes, and sequin shimmer walls.
+            </p>
+          </div>
+
+          <a
+            href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+              'Hi Kamal Kumar, I would like to book a Birthday Decoration setup in Gurgaon.'
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#25D366] text-white text-xs font-bold shadow-sm hover:bg-[#20b857] transition-all self-start md:self-auto"
+          >
+            <MessageCircle className="w-3.5 h-3.5 fill-current" />
+            <span>Book Birthday on WhatsApp</span>
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {birthdayServices.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onQuickBook={openBookingWithService}
+            />
           ))}
         </div>
       </section>
 
-      {/* 8. Customer Testimonials */}
-      <section className="bg-white py-16 border-t border-[#F8E7EC]">
+      {/* 5. Dedicated Section: Anniversary Decoration (#anniversary) - Exactly 4 cards */}
+      <section id="anniversary" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-[#F8E7EC]">
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full mb-2">
+              <span>💖 Service Category</span>
+              <span>•</span>
+              <span>Anniversary & Milestones</span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A]">
+              Anniversary Decoration Services
+            </h2>
+            <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+              Romantic terrace sunset cabanas, golden jubilee setups, fresh rose petal pathways, and candlelight suites.
+            </p>
+          </div>
+
+          <a
+            href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+              'Hi Kamal Kumar, I would like to book an Anniversary Decoration setup in Gurgaon.'
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#25D366] text-white text-xs font-bold shadow-sm hover:bg-[#20b857] transition-all self-start md:self-auto"
+          >
+            <MessageCircle className="w-3.5 h-3.5 fill-current" />
+            <span>Book Anniversary on WhatsApp</span>
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {anniversaryServices.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onQuickBook={openBookingWithService}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 6. Dedicated Section: Baby Shower Decoration (#baby-shower) - Exactly 4 cards */}
+      <section id="baby-shower" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-[#F8E7EC]">
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full mb-2">
+              <span>🍼 Service Category</span>
+              <span>•</span>
+              <span>Mom-to-Be Celebrations</span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A]">
+              Baby Shower Decoration Setups
+            </h2>
+            <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+              Pastel hot air balloon clouds, illuminated 3D "B-A-B-Y" marquee light blocks, and whimsical safari animal cutouts.
+            </p>
+          </div>
+
+          <a
+            href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+              'Hi Kamal Kumar, I would like to book a Baby Shower Decoration setup.'
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#25D366] text-white text-xs font-bold shadow-sm hover:bg-[#20b857] transition-all self-start md:self-auto"
+          >
+            <MessageCircle className="w-3.5 h-3.5 fill-current" />
+            <span>Book Baby Shower on WhatsApp</span>
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {babyShowerServices.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onQuickBook={openBookingWithService}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 7. Dedicated Section: Baby Welcome Home (#baby-welcome) - Exactly 4 cards */}
+      <section id="baby-welcome" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-[#F8E7EC]">
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full mb-2">
+              <span>👶 Service Category</span>
+              <span>•</span>
+              <span>Heartfelt Homecoming</span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A]">
+              Baby Welcome Home Decorations
+            </h2>
+            <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+              Heartwarming arrival decor with cradle flower dressing, entrance balloon doorway arches, and welcome baby signage.
+            </p>
+          </div>
+
+          <a
+            href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+              'Hi Kamal Kumar, I would like to book a Baby Welcome Home Decoration setup.'
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#25D366] text-white text-xs font-bold shadow-sm hover:bg-[#20b857] transition-all self-start md:self-auto"
+          >
+            <MessageCircle className="w-3.5 h-3.5 fill-current" />
+            <span>Book Baby Welcome on WhatsApp</span>
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {babyWelcomeServices.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onQuickBook={openBookingWithService}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 8. Dedicated Section: Just Married & Romantic Room (#just-married) - Exactly 4 cards */}
+      <section id="just-married" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-[#F8E7EC]">
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full mb-2">
+              <span>🌹 Service Category</span>
+              <span>•</span>
+              <span>Intimate Romance</span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A]">
+              Just Married & Romantic Room Decor
+            </h2>
+            <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+              Dreamy fairy-light net canopies, Dutch rose petal pathways, tea-light candle pathways, and heart helium ceiling balloon setups.
+            </p>
+          </div>
+
+          <a
+            href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+              'Hi Kamal Kumar, I would like to book a Just Married / Romantic Room Decoration setup.'
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#25D366] text-white text-xs font-bold shadow-sm hover:bg-[#20b857] transition-all self-start md:self-auto"
+          >
+            <MessageCircle className="w-3.5 h-3.5 fill-current" />
+            <span>Book Romantic Room on WhatsApp</span>
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {romanticServices.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onQuickBook={openBookingWithService}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 9. Dedicated Section: Haldi & Mehndi (#haldi-mehndi) - Exactly 4 cards */}
+      <section id="haldi-mehndi" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-[#F8E7EC]">
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full mb-2">
+              <span>🌼 Service Category</span>
+              <span>•</span>
+              <span>Traditional Ceremonies</span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#29252A]">
+              Haldi & Mehndi Decoration Setups
+            </h2>
+            <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+              Vibrant yellow & orange marigold tassels, authentic royal brass urlis with fresh rose petals, canopy draping, and festive photobooths.
+            </p>
+          </div>
+
+          <a
+            href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+              'Hi Kamal Kumar, I would like to book a Haldi & Mehndi Decoration setup.'
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#25D366] text-white text-xs font-bold shadow-sm hover:bg-[#20b857] transition-all self-start md:self-auto"
+          >
+            <MessageCircle className="w-3.5 h-3.5 fill-current" />
+            <span>Book Haldi Setup on WhatsApp</span>
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {haldiServices.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onQuickBook={openBookingWithService}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 10. Customer Reviews & Testimonials (#reviews) */}
+      <section id="reviews" className="bg-white py-16 border-y border-[#F8E7EC] scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
             <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
@@ -602,7 +582,7 @@ export const HomePage: React.FC = () => {
               What Our Happy Clients Say
             </h2>
             <p className="text-sm text-gray-600">
-              Verified feedback from families and couples who trusted Kreative Decor.
+              Verified feedback from families and couples in Gurgaon & Delhi NCR who celebrated with Kreative Decor.
             </p>
           </div>
 
@@ -634,8 +614,8 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 9. Frequently Asked Questions */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 11. Frequently Asked Questions (#faq) */}
+      <section id="faq" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
         <div className="text-center space-y-3 mb-10">
           <span className="text-xs font-bold text-[#701F3D] uppercase tracking-widest bg-[#F8E7EC] px-3 py-1 rounded-full">
             Got Questions?
@@ -644,7 +624,7 @@ export const HomePage: React.FC = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-sm text-gray-600">
-            Everything you need to know about setup timelines, customizations, and booking.
+            Timelines, customization options, safety guarantees, and advance booking policies.
           </p>
         </div>
 
@@ -668,41 +648,186 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 10. Direct Connect Callout for Kamal Kumar */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#29252A] text-white rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border-2 border-[#D6B36A]">
-          <div className="space-y-3 text-center md:text-left">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#D6B36A]">
-              Have a Custom Request or Date in Mind?
-            </span>
-            <h3 className="font-serif text-2xl sm:text-3xl font-bold">
-              Speak Directly with Kamal Kumar
-            </h3>
-            <p className="text-xs sm:text-sm text-gray-300 max-w-xl">
-              Get an instant quote, check availability, or discuss custom color themes for your birthday, anniversary, wedding, or haldi decor.
-            </p>
-          </div>
+      {/* 12. Contact & Quick Inquiry Section (#contact) */}
+      <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        <div className="bg-[#29252A] text-white rounded-3xl p-6 sm:p-12 border-2 border-[#D6B36A] shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Col: Contact info */}
+            <div className="lg:col-span-5 space-y-5">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#D6B36A] bg-white/10 px-3 py-1 rounded-full">
+                Get In Touch
+              </span>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
-            <a
-              href={`https://wa.me/${settings.phoneNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                'Hi Kamal Kumar, I would like to discuss a customized event decoration package.'
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20b857] text-white text-xs font-bold shadow-md transition-all flex items-center gap-2"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp Kamal Kumar</span>
-            </a>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+                Plan Your Event with Kamal Kumar
+              </h2>
 
-            <a
-              href={`tel:${settings.phoneNumber.replace(/[^0-9]/g, '')}`}
-              className="px-6 py-3 rounded-xl bg-[#701F3D] hover:bg-[#8A264B] text-white text-xs font-bold shadow-md transition-all border border-[#D6B36A]/40 flex items-center gap-2"
-            >
-              <Phone className="w-4 h-4 text-[#D6B36A]" />
-              <span>Call: {settings.phoneNumber}</span>
-            </a>
+              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                Send your date and celebration requirements to get instant pricing, customized color themes, and date confirmation.
+              </p>
+
+              <div className="space-y-3 pt-2 text-xs text-gray-200">
+                <div className="flex items-start gap-3">
+                  <Phone className="w-4 h-4 text-[#D6B36A] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold text-white">Call Kamal Kumar</p>
+                    <a href={`tel:${cleanPhone}`} className="text-gray-300 hover:text-white transition-colors">
+                      {settings.phoneNumber}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold text-white">Direct WhatsApp</p>
+                    <a
+                      href={`https://wa.me/${cleanPhone}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#25D366] hover:underline"
+                    >
+                      Chat on WhatsApp (+91 98788 95539)
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-4 h-4 text-[#D6B36A] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold text-white">Office Location</p>
+                    <p className="text-gray-300">
+                      Sector 7, Sector 51, Sector 12, Gurgaon, Haryana, India
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-3">
+                <a
+                  href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+                    'Hi Kamal Kumar, I would like to book an event decoration.'
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20b857] text-white text-xs font-bold shadow-md transition-all flex items-center gap-2"
+                >
+                  <MessageCircle className="w-4 h-4 fill-current" />
+                  <span>WhatsApp Us Directly</span>
+                </a>
+
+                <a
+                  href={`tel:${cleanPhone}`}
+                  className="px-6 py-3 rounded-xl bg-[#701F3D] hover:bg-[#8A264B] text-white text-xs font-bold shadow-md transition-all border border-[#D6B36A]/40 flex items-center gap-2"
+                >
+                  <Phone className="w-4 h-4 text-[#D6B36A]" />
+                  <span>Call Now</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Right Col: Fast Inquiry Form */}
+            <div className="lg:col-span-7 bg-white text-gray-900 p-6 sm:p-8 rounded-2xl shadow-xl">
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#701F3D] mb-1">
+                Fast Event Booking Request
+              </h3>
+              <p className="text-xs text-gray-500 mb-5">
+                Fill this 1-minute form to receive immediate quotation on WhatsApp.
+              </p>
+
+              {inquirySuccess && (
+                <div className="mb-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Inquiry sent successfully! WhatsApp chat opened with your details.</span>
+                </div>
+              )}
+
+              <form onSubmit={handleInquirySubmit} className="space-y-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                      Your Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={inquiryName}
+                      onChange={(e) => setInquiryName(e.target.value)}
+                      placeholder="e.g. Rahul Sharma"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                      WhatsApp Mobile Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={inquiryPhone}
+                      onChange={(e) => setInquiryPhone(e.target.value)}
+                      placeholder="e.g. 98765 43210"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                      Celebration Occasion *
+                    </label>
+                    <select
+                      value={inquiryCategory}
+                      onChange={(e) => setInquiryCategory(e.target.value)}
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden bg-white"
+                    >
+                      <option value="Birthday Decoration">Birthday Decoration</option>
+                      <option value="Anniversary Decoration">Anniversary Decoration</option>
+                      <option value="Baby Shower Setup">Baby Shower Setup</option>
+                      <option value="Baby Welcome Home">Baby Welcome Home</option>
+                      <option value="Just Married / Romantic Room">Just Married / Romantic Room</option>
+                      <option value="Haldi & Mehndi Ceremony">Haldi & Mehndi Ceremony</option>
+                      <option value="Other Customized Celebration">Other Customized Celebration</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                      Target Date (Optional)
+                    </label>
+                    <input
+                      type="date"
+                      value={inquiryDate}
+                      onChange={(e) => setInquiryDate(e.target.value)}
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden bg-white"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Venue or Special Preferences
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={inquiryMessage}
+                    onChange={(e) => setInquiryMessage(e.target.value)}
+                    placeholder="e.g. Living room setup in Sector 54 Gurgaon, pastel theme..."
+                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-gray-300 focus:border-[#701F3D] focus:outline-hidden resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20b857] text-white text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Submit & Open WhatsApp Quotation</span>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>
@@ -712,19 +837,6 @@ export const HomePage: React.FC = () => {
         isOpen={isBookingModalOpen}
         onClose={() => setIsBookingModalOpen(false)}
         service={selectedServiceForBooking}
-      />
-
-      {/* Lightbox Modal */}
-      <LightboxModal
-        isOpen={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
-        items={displayedHomeGallery}
-        currentIndex={lightboxIndex}
-        onNavigate={setLightboxIndex}
-        onBookStyle={(item) => {
-          setLightboxOpen(false);
-          setIsBookingModalOpen(true);
-        }}
       />
     </div>
   );

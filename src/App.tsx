@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -41,6 +41,21 @@ function ScrollToTop() {
   return null;
 }
 
+// Secret Owner Keyboard Shortcut (Alt + A / Option + A) to open Admin
+function AdminShortcutListener() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.altKey && (e.key === 'a' || e.key === 'A')) {
+        navigate('/admin/login');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [navigate]);
+  return null;
+}
+
 // Wrapper for public customer pages with Navbar and Footer
 const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
@@ -58,6 +73,7 @@ export default function App() {
     <AppProvider>
       <Router>
         <ScrollToTop />
+        <AdminShortcutListener />
         <Routes>
           {/* Public Customer Routes */}
           <Route

@@ -257,7 +257,7 @@ const INITIAL_SAMPLE_INQUIRIES: Inquiry[] = [
   },
 ];
 
-const CURRENT_DATA_VERSION = '2026-10-22-v23-kamal-gurgaon';
+const CURRENT_DATA_VERSION = '2026-10-23-v25-clean-landing-kamal';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Services

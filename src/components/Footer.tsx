@@ -94,34 +94,34 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <Link to="/category/birthday" className="hover:text-[#D6B36A] transition-colors">
+                <a href="/#birthday" className="hover:text-[#D6B36A] transition-colors">
                   Birthday Decoration
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/category/anniversary" className="hover:text-[#D6B36A] transition-colors">
+                <a href="/#anniversary" className="hover:text-[#D6B36A] transition-colors">
                   Anniversary Decoration
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/category/wedding" className="hover:text-[#D6B36A] transition-colors">
-                  Wedding & Mandap Stages
-                </Link>
+                <a href="/#baby-shower" className="hover:text-[#D6B36A] transition-colors">
+                  Baby Shower Setups
+                </a>
               </li>
               <li>
-                <Link to="/category/haldi" className="hover:text-[#D6B36A] transition-colors">
-                  Haldi & Mehendi Celebrations
-                </Link>
+                <a href="/#baby-welcome" className="hover:text-[#D6B36A] transition-colors">
+                  Baby Welcome Home
+                </a>
               </li>
               <li>
-                <Link to="/category/romantic" className="hover:text-[#D6B36A] transition-colors">
-                  Romantic Room & Cabana
-                </Link>
+                <a href="/#just-married" className="hover:text-[#D6B36A] transition-colors">
+                  Just Married & Romantic Room
+                </a>
               </li>
               <li>
-                <Link to="/category/balloon" className="hover:text-[#D6B36A] transition-colors">
-                  Balloon Arches & Pillars
-                </Link>
+                <a href="/#haldi-mehndi" className="hover:text-[#D6B36A] transition-colors">
+                  Haldi & Mehndi Celebrations
+                </a>
               </li>
             </ul>
           </div>
@@ -133,34 +133,34 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <Link to="/services" className="hover:text-[#D6B36A] transition-colors">
-                  All Decoration Packages
-                </Link>
+                <a href="/#hero" className="hover:text-[#D6B36A] transition-colors">
+                  Home
+                </a>
               </li>
               <li>
-                <Link to="/gallery" className="hover:text-[#D6B36A] transition-colors">
-                  Real Event Gallery
-                </Link>
+                <a href="/#about" className="hover:text-[#D6B36A] transition-colors">
+                  About Kamal Kumar
+                </a>
               </li>
               <li>
-                <Link to="/about" className="hover:text-[#D6B36A] transition-colors">
-                  Founded by Kamal Kumar
-                </Link>
+                <a href="/#reviews" className="hover:text-[#D6B36A] transition-colors">
+                  Client Reviews
+                </a>
               </li>
               <li>
-                <Link to="/inquiry" className="hover:text-[#D6B36A] transition-colors">
-                  Custom Event Inquiry
-                </Link>
+                <a href="/#faq" className="hover:text-[#D6B36A] transition-colors">
+                  Booking FAQs
+                </a>
               </li>
               <li>
-                <Link to="/my-bookings" className="hover:text-[#D6B36A] transition-colors">
-                  Track My Bookings
-                </Link>
+                <a href="/#contact" className="hover:text-[#D6B36A] transition-colors">
+                  Contact & Location
+                </a>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-[#D6B36A] transition-colors">
-                  Contact & Support
-                </Link>
+                <a href="/#services" className="hover:text-[#D6B36A] transition-colors">
+                  All Event Categories
+                </a>
               </li>
             </ul>
           </div>
@@ -225,7 +225,11 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
           <p>
-            © {new Date().getFullYear()} {settings.businessName}. Founded by Kamal Kumar. All rights reserved.
+            © {new Date().getFullYear()} {settings.businessName}. Founded by{' '}
+            <Link to="/admin/login" className="hover:text-gray-300">
+              Kamal Kumar
+            </Link>
+            . All rights reserved.
           </p>
 
           <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center">
